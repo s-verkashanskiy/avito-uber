@@ -12,6 +12,7 @@ router.use(fileUpload({
 }));
 // Редактирование профиля
 router.get(['/', "/profile"], async (req, res) => {
+
   let customer = await User.findOne({email: req.session.user.email})
   res.render("customer/customer_profile", customer);
 });
@@ -52,7 +53,9 @@ router.post('/profile/upload', function(req, res) {
 
 // Создать новый заказ
 router.get("/neworder", async (req, res) => {
-  res.render("customer/customer_newOrder");
+  const category = await Category.find().populate('skills');
+  const firstCat = category[1];
+  res.render("customer/customer_newOrder", {category, firstCat});
 });
 
 router.post("/neworder", async (req, res) => {
@@ -70,6 +73,12 @@ router.post("/neworder", async (req, res) => {
   res.redirect("/customer/myOrders");
 });
 
+router.get('/skills/:id', async (req, res) => {
+  console.log(req.params)
+ const category = await Category.findById(req.params.id).populate('skills');
+ res.json({skills: category.skills});
+})
+
 router.get("/myOrders", async (req, res) => {
   let customer = await User.findOne({email: req.session.user.email})
   const orders = await Order.find({customer: customer})
@@ -77,14 +86,16 @@ router.get("/myOrders", async (req, res) => {
 });
 
 router.get('/myOrders/:id/edit', async function (req, res, next) {
+  const category = await Category.find().populate('skills');
+  const firstCat = category[1];
   let order = await Order.findById(req.params.id);
-  res.render('customer/editOrder',  order);
+  res.render('customer/editOrder',  order, {firstCat});
 });
 
 router.post('/myOrders/:id/edit', async function (req, res, next) {
   let order = await Order.findById(req.params.id)
   console.log(req.body)
-  order.title  = req.body.title
+  order.title  = req.body.title 
   order.description = req.body.description
   order.price = req.body.price
   // order.categories = req.body.tags 

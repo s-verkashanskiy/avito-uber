@@ -1,3 +1,5 @@
+<script defer src="/js/customer.js"></script>
+
 <form method='post' action="/customer/myOrders/{{id}}/edit">
 <h4>Название</h4>
 <input type="text" name='title' value="{{title}}">
@@ -6,8 +8,26 @@
 <h4>Цена</h4>
 <input type="number" name="price" value={{price}}>
 
-
-
+<div id="skills">
+{{#each executor.skills}}
+<span id="{{_id}}">{{title}} <a href="" class="deleteSkill">X</a>|</span>
+{{/each}} <br>
+<select id="selectCategory">
+  {{#each category}}
+  <option value={{_id}}>
+    {{title}}
+  </option>
+  {{/each}}
 </select>
+
+<select id="selectSkill">
+  {{#each firstCat.skills}}
+  <option value={{_id}}>
+    {{title}}
+  </option>
+  {{/each}}
+</select>
+<button id="addSkill">Добавить</button>
+
 <input type="submit" value='Enter'>
 </form>

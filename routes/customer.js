@@ -69,4 +69,29 @@ router.get("/myOrders", async (req, res) => {
   res.render('customer/myorders', {orders})
 });
 
+router.get('/myOrders/:id/edit', async function (req, res, next) {
+  let order = await Order.findById(req.params.id);
+  // console.log(order.title)
+  res.render('customer/editOrder',  order);
+});
+
+router.post('/myOrders/:id/edit', async function (req, res, next) {
+  let order = await Order.findById(req.params.id)
+  console.log(req.body)
+  order.title  = req.body.title
+  order.price = req.body.price
+  // order.categories = req.body.tags 
+  console.log(order)
+  await order.save()
+  res.redirect('/customer/myOrders')
+  // console.log(req.params.id)
+})
+
+router.get('/myOrders/:id/delete', async function (req, res, next) {
+  console.log(req.params.id)
+  await Order.deleteOne({'_id': req.params.id});
+  res.redirect('/customer/myOrders');
+});
+
+
 module.exports = router;

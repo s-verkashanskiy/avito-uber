@@ -1,0 +1,16 @@
+<form method='post' action="/customer/myOrders/{{id}}/edit">
+<h4>Название</h4>
+<input type="text" name='title' value="{{title}}">
+<h4>Описание</h4>
+<textarea value='' name='desctiption'> </textarea>
+<h4>Цена</h4>
+<input type="number" name="price" value={{price}}>
+<select multiple   name="tags">
+  <option value="privorot">Приворот</option>
+  <option value="otvorot">Отворот</option>
+  <option value="zagovor">Заговор</option>
+  <option value="porcha">Порча</option>
+  <option value="proklyatie">Проклятие</option>
+</select>
+<input type="submit" value='Enter'>
+</form>

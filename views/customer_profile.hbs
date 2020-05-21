@@ -1,0 +1,25 @@
+
+<form method='post' action="/customer/profile">
+<h4>Имя</h4>
+<input type='text' name='name' value={{this.name}}>
+<h4>Город</h4>
+<input type='text' name='city' value={{this.city}}>
+<button type='submit'>Enter</button>
+</form>
+
+<p>{{message}}</p>
+
+<form 
+      id='uploadForm' 
+      enctype = "multipart/form-data" 
+      action='/customer/profile/upload' 
+      method='post' >
+        <input type="file" name="sampleFile" />
+        <input type='submit' value='Upload!' />
+    </form>    
+
+
+{{!-- <form method="POST" action="/customer/profile/upload" enctype = "multipart/form-data" >
+  <input type="file" name="file">
+  <input type="submit" value="Upload!">
+</form> --}}

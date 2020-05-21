@@ -4,7 +4,6 @@ const useErrorHandlers = require("./middleware/error-handlers");
 const indexRouter = require("./routes/index");
 const customerRouter = require("./routes/customer");
 const executorRouter = require("./routes/executor");
-
 const app = express();
 useMiddleware(app);
 

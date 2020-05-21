@@ -1,17 +1,20 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const { sessionChecker } = require("../middleware/auth");
-const User = require("../models/users");
+const { User, Skill, Order, Category }= require("../models/users");
 const router = express.Router();
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
+
+
+
 router.use(fileUpload({
   debug: true, 
 }));
 // Редактирование профиля
-router.get(['/', "/profile"], (req, res) => {
-  let customer = { name: "Petya", city: "Moscow" };
-  res.render("customer_profile", customer);
+router.get(['/', "/profile"], async (req, res) => {
+  let customer = await User.findOne({email: req.session.user.email})
+  res.render("customer/customer_profile", customer);
 });
 
 router.post("/profile", async (req, res) => {
@@ -40,23 +43,30 @@ router.post('/profile/upload', function(req, res) {
   });
 });
 
+
 // Создать новый заказ
 router.get("/neworder", async (req, res) => {
-  res.render("customer_newOrder");
+  res.render("customer/customer_newOrder");
 });
 
 router.post("/neworder", async (req, res) => {
-  class Order {
-    constructor(obj) {
-      this.key = obj.key;
-    }
-  }
 
+  let customer = await User.findOne({email: req.session.user.email})
+  const order = await new Order({
+    title: req.body.title,
+    customer: customer,
+    // categories: req.body.tags
+  })
+  await order.save()
   console.log(req.body);
   res.redirect("/customer/neworder");
   // const Order = new Order(req.body)
 });
 
-router.get("/myOrders", async (req, res) => {});
+router.get("/myOrders", async (req, res) => {
+  let customer = await User.findOne({email: req.session.user.email})
+  const orders = await Order.find({customer: customer})
+  res.render('customer/myorders', {orders})
+});
 
-
+module.exports = router;

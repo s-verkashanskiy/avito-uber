@@ -49,9 +49,9 @@ const userSchema = new Schema({
     story: {
       type: String,
     },
-    skills: [{
-      type: ObjectId,
-      ref: 'Skill'
+    skills:[{
+      type: Schema.Types.ObjectId,
+      ref: 'Category'
     }]
 });
 
@@ -82,7 +82,7 @@ const orderSchema = new Schema({
     required: true
   },
   categories: [{
-    type: ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Category'
   }]
 });

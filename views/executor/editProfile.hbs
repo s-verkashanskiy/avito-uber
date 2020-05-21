@@ -3,9 +3,9 @@
 <form action="/executor" method="post">
 
 <div style="height: 300px; width: 300px; border: solid black 2px;">
-  <img alt="eto {{executor.name}}">
+  <img alt="eto {{executor.username}}">
 </div>
-<span>Имя: </span><input type="text" name="name" value="{{executor.name}}"><br>
+<span>Имя: </span><input type="text" name="name" value="{{executor.username}}"><br>
 <span>Город: </span><input type="text" name="city" value="{{executor.city}}"><br>
 <span> О себе: </span><br>
 <textarea name="story" id="" cols="30" rows="10">{{executor.story}}</textarea><br>
@@ -14,6 +14,15 @@
 {{#each executor.skills}}
 <span id="{{this}}">{{this}} <a href="" class="deleteSkill">X</a>|</span>
 {{/each}}
+<select id="selectSkill">
+  {{#each category}}
+  <option value={{_id}}>
+    {{title}}
+  </option>
+  {{/each}}
+</select>
+<button id="addSkill">Добавить</button>
+
 </div>
 <br>
 <br>

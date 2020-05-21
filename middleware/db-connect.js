@@ -8,3 +8,4 @@ mongoose.connect(`mongodb+srv://admin:${process.env.ADMIN_PASSWORD}@cluster0-rib
 });
 
 module.exports = mongoose.connection;
+

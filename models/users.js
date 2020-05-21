@@ -92,15 +92,14 @@ const skillSchema = new Schema({
 });
 
 const orderSchema = new Schema({
-  title: {
+  title:{ 
     type: String,
     required: [true, 'Укажите тему заказа']
   },
   description: {
     type: String,
     required: [true, 'Укажите тему заказа']
-  },
-  price: {
+  },  price: {
     type: Number
   },
   customer: {

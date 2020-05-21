@@ -10,7 +10,7 @@ useMiddleware(app);
 // Подключаем импортированные маршруты с определенным url префиксом.
 app.use("/", indexRouter);
 app.use("/customer", customerRouter);
-app.use("/executorR", executorRouter);
+app.use("/executor", executorRouter);
 
 useErrorHandlers(app);
 

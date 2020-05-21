@@ -1,0 +1,25 @@
+<script defer src="/js/executor.js"></script>
+
+<form action="/executor" method="post">
+
+<div style="height: 300px; width: 300px; border: solid black 2px;">
+  <img alt="eto {{executor.name}}">
+</div>
+<span>Имя: </span><input type="text" name="name" value="{{executor.name}}"><br>
+<span>Город: </span><input type="text" name="city" value="{{executor.city}}"><br>
+<span> О себе: </span><br>
+<textarea name="story" id="" cols="30" rows="10">{{executor.story}}</textarea><br>
+<span>Скилы: </span><br>
+<div id="skills">
+{{#each executor.skills}}
+<span id="{{this}}">{{this}} <a href="" class="deleteSkill">X</a>|</span>
+{{/each}}
+</div>
+<br>
+<br>
+<br>
+<br>
+<input name="editProfile" type="submit" value="ok">
+</form>
+
+

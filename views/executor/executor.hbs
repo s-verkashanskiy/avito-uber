@@ -1,0 +1,19 @@
+<div style="height: 300px; width: 300px; border: solid black 2px;">
+  <img alt="eto {{executor.name}}">
+</div>
+<h1>{{executor.name}}</h1>
+<span>{{executor.city}}</span><br>
+<span>{{executor.email}}</span>
+<p>{{executor.story}}</p>
+{{#each executor.skills}}
+<span>{{this}}, </span>
+{{/each}}
+<br>
+<a href="/executor/editProfile">редактировать профиль</a>
+<br>
+<br>
+<br>
+<a href="/executor/orders">Заказы</a>
+<a href="/executor/orders">Отклики</a>
+
+

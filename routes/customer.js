@@ -8,8 +8,7 @@ const fileUpload = require("express-fileupload");
 
 
 
-router.use(fileUpload({
-  debug: true, 
+router.use(fileUpload({ 
 }));
 // Редактирование профиля
 router.get(['/', "/profile"], async (req, res) => {
@@ -18,7 +17,14 @@ router.get(['/', "/profile"], async (req, res) => {
 });
 
 router.post("/profile", async (req, res) => {
-  console.log(req.body);
+  let customer = await User.findOne({email: req.session.user.email})
+  console.log(req.body.story)
+  customer.username = req.body.name;
+  customer.city = req.body.city;
+  customer.phone = req.body.phone
+  customer.story = req.body.story;
+  await customer.save();
+  console.log(customer)
   res.redirect("/customer/profile");
 });
 
@@ -52,15 +58,16 @@ router.get("/neworder", async (req, res) => {
 router.post("/neworder", async (req, res) => {
 
   let customer = await User.findOne({email: req.session.user.email})
+  console.log(req.body.title)
   const order = await new Order({
     title: req.body.title,
     customer: customer,
+    description: req.body.description
     // categories: req.body.tags
   })
   await order.save()
-  console.log(req.body);
-  res.redirect("/customer/neworder");
-  // const Order = new Order(req.body)
+  console.log(order);
+  res.redirect("/customer/myOrders");
 });
 
 router.get("/myOrders", async (req, res) => {
@@ -71,7 +78,6 @@ router.get("/myOrders", async (req, res) => {
 
 router.get('/myOrders/:id/edit', async function (req, res, next) {
   let order = await Order.findById(req.params.id);
-  // console.log(order.title)
   res.render('customer/editOrder',  order);
 });
 
@@ -79,19 +85,21 @@ router.post('/myOrders/:id/edit', async function (req, res, next) {
   let order = await Order.findById(req.params.id)
   console.log(req.body)
   order.title  = req.body.title
+  order.description = req.body.description
   order.price = req.body.price
   // order.categories = req.body.tags 
-  console.log(order)
   await order.save()
+  console.log(order)
   res.redirect('/customer/myOrders')
-  // console.log(req.params.id)
 })
 
 router.get('/myOrders/:id/delete', async function (req, res, next) {
-  console.log(req.params.id)
+  // console.log(req.params.id)
   await Order.deleteOne({'_id': req.params.id});
   res.redirect('/customer/myOrders');
 });
+
+
 
 
 module.exports = router;

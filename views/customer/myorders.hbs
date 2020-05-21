@@ -1,0 +1,14 @@
+<div
+  style="height: 500px;width: 900px; border: solid black 2px; display: flex; flex-direction: column; flex-wrap: wrap; font-size: 15px; ">
+  {{#each orders}}
+  <div >
+    <div>Автор: {{author}}</div>
+    <div>Текс: <br>{{title}}</div>
+    <div>Тема:{{theme}}</div>
+    <a href="/customer/myorders/{{id}}/edit">Редактировать</a>
+    <a href="/customer/myorders/{{id}}/delete">Удалить</a>
+  </div>
+  <br>
+  {{/each}}
+
+</div>

@@ -79,7 +79,7 @@ const orderSchema = new Schema({
   },
   expirationDate: {
     type: String,
-    required: true
+    // required: true
   },
   categories: [{
     type: Schema.Types.ObjectId,

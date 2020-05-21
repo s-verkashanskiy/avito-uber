@@ -86,7 +86,7 @@ const skillSchema = new Schema({
     required: [true, 'Не задано название навыка']
   },
   category: {
-    type: String,
+    type: ObjectId,
     ref: 'Category',
     required: [true, 'Не задана категория для skill']
   }
@@ -135,6 +135,15 @@ const categorySchema = new Schema({
   }]
 })
 
+const priceSchema = new Schema( [{
+  costRange: {
+    type: String,
+    unique: true,
+    required: true
+  },
+  currency: String
+}])
+
 
 
 
@@ -142,6 +151,7 @@ const User = model('User', userSchema);
 const Skill = model('Skill', skillSchema);
 const Order = model('Order', orderSchema);
 const Category = model('Category', categorySchema);
+const Price = model('Price', priceSchema);
 
 
-module.exports = { User, Skill, Order, Category };
+module.exports = { User, Skill, Order, Category, Price };

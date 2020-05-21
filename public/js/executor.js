@@ -30,19 +30,24 @@ document.body.addEventListener('click', async (event) => {
   if (event.target.id === 'addSkill'){
     event.preventDefault();
     const select = document.getElementById('selectSkill');
-    console.log(select.value);
-        
-    // const result = await (
-    //   await fetch(`/executor`, {
-    //     method: "PUT",
-    //     headers: {
-    //       "Content-Type": "application/json",
-    //     },
-    //     body: JSON.stringify({
-    //       id: select.value,
-    //     }),
-    //   })
-    // ).json();
+    const result = await (
+      await fetch(`/executor`, {
+        method: "PUT",
+        headers: {
+          "Content-Type": "application/json",
+        },
+        body: JSON.stringify({
+          id: select.value,
+        }),
+      })
+    ).json();
+    if (result.status === 200){
+  document.getElementById('skills').innerHTML += await render('addSkill', {skill: result.skill});
+    }
+
+
+    console.log(result);
+    
   }
 
 })

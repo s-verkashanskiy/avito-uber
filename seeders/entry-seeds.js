@@ -2,62 +2,69 @@ require('dotenv').config();
 // Подключаем mongoose.
 const mongoose = require("mongoose");
 require("../middleware/db-connect");
-const { User, Skill, Order, Category } = require('../models/users');
+const { User, Skill, Order, Category, Price } = require('../models/users');
 
 
-  //   Skill.insertMany([
-  //   {title: 'натальная карта'},
-  //   {title: 'прогноз на год (солар)'},
-  //   {title: 'гороскоп совместимости'},
-  //   {title: 'финансовый прогноз'},
-  //   {title: 'детский гороскоп'},
-  //   {title: 'предназначение и таланты'},
-  //   {title: 'расклад на ситуацию'},
-  //   {title: 'расклад на совместимость'},
-  //   {title: 'расклад на день'},
-  //   {title: 'расклад на месяц'},
-  // ]);
+const users = [], skills = [], orders = [], categories = [], prices = [];
 
-  // Skill.insertMany([
-  //   {title: 'чтение бодиграфа'},
-  //   {title: 'совместимость по HD'},
-  //   {title: 'денежная линия в HD'},
-  //   {title: 'питание по HD'},
-  //   {title: 'матрица личности'},
-  //   {title: 'приворот'},
-  //   {title: 'отворот'},
-  //   {title: 'снятие заговоров на бедность'},
-  //   {title: 'снятие порчи и сглаза'},
-  // ]);
+categories.push(new Category ({ title: 'Астрология'}));
+categories[0].skills = [];
+skills.push(new Skill ({ title: 'натальная карта', category: categories[0]._id}));
+skills.push(new Skill ({ title: 'прогноз на год (солар)', category: categories[0]._id}));
+skills.push(new Skill ({ title: 'финансовый прогноз', category: categories[0]._id}));
+skills.push(new Skill ({ title: 'гороскоп совместимости', category: categories[0]._id}));
+skills.push(new Skill ({ title: 'детский гороскоп', category: categories[0]._id}));
+skills.push(new Skill ({ title: 'предназначение и таланты', category: categories[0]._id}));
+categories[0].skills.push(skills[0]._id);
+categories[0].skills.push(skills[1]._id);
+categories[0].skills.push(skills[2]._id);
+categories[0].skills.push(skills[3]._id);
+categories[0].skills.push(skills[4]._id);
+categories[0].skills.push(skills[5]._id);
 
-  // Category.insertMany([
-  //   {
-  //   title: 'Астрология',
-  //   skills:['5ec683ce1bf5d27ee1ef7165','5ec683ce1bf5d27ee1ef7166','5ec683ce1bf5d27ee1ef7167','5ec683ce1bf5d27ee1ef7168','5ec683ce1bf5d27ee1ef716a','5ec683ce1bf5d27ee1ef7169']
-  // },
-  //   {
-  //     title: 'Таро',
-  //   skills:['5ec683ce1bf5d27ee1ef716b','5ec683ce1bf5d27ee1ef716c','5ec683ce1bf5d27ee1ef716d','5ec683ce1bf5d27ee1ef716e']
 
-  //   },
-  //   {
-  //   title: 'Human design',
-  //   skills:['5ec687a3b329f507c1529e3c','5ec687a3b329f507c1529e3d','5ec687a3b329f507c1529e3e','5ec687a3b329f507c1529e3f']
-  //   },
-  //   {
-  //     title: 'Эзотерика',
-  //   skills:['5ec687a3b329f507c1529e40','5ec687a3b329f507c1529e41','5ec687a3b329f507c1529e42','5ec687a3b329f507c1529e43','5ec687a3b329f507c1529e44']
-  //   },
-  // ]);
+categories.push(new Category ({ title: 'Таро' }));
+categories[1].skills = [];
+skills.push(new Skill ({ title: 'расклад на ситуацию', category: categories[1]._id}));
+skills.push(new Skill ({ title: 'расклад на совместимость', category: categories[1]._id}));
+skills.push(new Skill ({ title: 'расклад на день', category: categories[1]._id}));
+skills.push(new Skill ({ title: 'расклад на месяц', category: categories[1]._id}));
+categories[1].skills.push(skills[0]._id);
+categories[1].skills.push(skills[1]._id);
+categories[1].skills.push(skills[2]._id);
+categories[1].skills.push(skills[3]._id);
 
-const users = [], skills = [], orders = [], categories = [];
 
-skills.push(new Skill ({ title: 'Маг'}));
-skills.push(new Skill ({ title: 'Предсказание'}));
-skills.push(new Skill ({ title: 'Хиромантия'}));
-skills.push(new Skill ({ title: 'Астролог'}));
-skills.push(new Skill ({ title: 'Гадание на картах Таро'}));
-skills.push(new Skill ({ title: 'Нумерологические тесты'}));
+categories.push(new Category ({ title: 'Human design' }));
+categories[2].skills = [];
+skills.push(new Skill ({ title: 'чтение бодиграфа', category: categories[2]._id}));
+skills.push(new Skill ({ title: 'совместимость по HD', category: categories[2]._id}));
+skills.push(new Skill ({ title: 'денежная линия в HD', category: categories[2]._id}));
+skills.push(new Skill ({ title: 'питание по HD', category: categories[2]._id}));
+categories[2].skills.push(skills[0]._id);
+categories[2].skills.push(skills[1]._id);
+categories[2].skills.push(skills[2]._id);
+categories[2].skills.push(skills[3]._id);
+
+
+categories.push(new Category ({ title: 'Эзотерика' }));
+categories[3].skills = [];
+skills.push(new Skill ({ title: 'матрица личности', category: categories[3]._id}));
+skills.push(new Skill ({ title: 'приворот', category: categories[3]._id}));
+skills.push(new Skill ({ title: 'отворот', category: categories[3]._id}));
+skills.push(new Skill ({ title: 'снятие заговоров на бедность', category: categories[3]._id}));
+skills.push(new Skill ({ title: 'снятие порчи и сглаза', category: categories[3]._id}));
+categories[3].skills.push(skills[0]._id);
+categories[3].skills.push(skills[1]._id);
+categories[3].skills.push(skills[2]._id);
+categories[3].skills.push(skills[3]._id);
+categories[3].skills.push(skills[4]._id);
+
+prices.push(new Price ({ costRange: '100-1000', currency: 'рублей');
+prices.push(new Price ({ costRange: '1000-3000', currency: 'рублей');
+prices.push(new Price ({ costRange: '3000-50000', currency: 'рублей');
+prices.push(new Price ({ costRange: '5000-10000', currency: 'рублей');
+prices.push(new Price ({ costRange: '10000 и более', currency: 'рублей');
 
 
 users.push(new User ({
@@ -101,10 +108,6 @@ users.push(new User ({
   skills: [skills[0]._id, skills[1]._id],
 }));
 
-categories.push(new Category ({ title: 'Астрология'}));
-categories.push(new Category ({ title: 'Human Design'}));
-categories.push(new Category ({ title: 'Таро'}));
-categories.push(new Category ({ title: 'Эзотерика'}));
 
 orders.push(new Order ({
   title: 'Заказ №1',
@@ -131,14 +134,11 @@ orders.push(new Order ({
   categories: [categories[2]._id, categories[3]._id]
 }));
 
-skills.push(new Skill ({
-  title: 'Натальная карта',
-  
-}))
 
 Skill.insertMany(skills)
 .then(() => User.insertMany(users))
 .then(() => Category.insertMany(categories))
 .then(() => Order.insertMany(orders))
+.then(() => Price.insertMany(prices))
 .then(() => mongoose.connection.close())
 .catch( error => console.log(error));

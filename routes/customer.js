@@ -89,7 +89,7 @@ router.get('/myOrders/:id/edit', async function (req, res, next) {
   const category = await Category.find().populate('skills');
   const firstCat = category[1];
   let order = await Order.findById(req.params.id);
-  res.render('customer/editOrder',  order, {firstCat});
+  res.render('customer/editOrder', {firstCat, order});
 });
 
 router.post('/myOrders/:id/edit', async function (req, res, next) {

@@ -1,3 +1,13 @@
+const Templates = {};
+async function render(templateName, data) {
+  if (!Templates[templateName]) {
+    const str = await (await fetch(`/templates/${templateName}.hbs`)).text();
+    Templates[templateName] = Handlebars.compile(str);
+  }
+
+  return Templates[templateName](data);
+}
+
 document.body.addEventListener('click', async (event) => {
   if (event.target.className === 'deleteSkill'){
     event.preventDefault();
@@ -22,17 +32,24 @@ document.body.addEventListener('click', async (event) => {
     const select = document.getElementById('selectSkill');
     console.log(select.value);
         
-    const result = await (
-      await fetch(`/executor`, {
-        method: "PUT",
-        headers: {
-          "Content-Type": "application/json",
-        },
-        body: JSON.stringify({
-          id: select.value,
-        }),
-      })
-    ).json();
+    // const result = await (
+    //   await fetch(`/executor`, {
+    //     method: "PUT",
+    //     headers: {
+    //       "Content-Type": "application/json",
+    //     },
+    //     body: JSON.stringify({
+    //       id: select.value,
+    //     }),
+    //   })
+    // ).json();
   }
 
+})
+
+document.getElementById('selectCategory').addEventListener('change',async (event) => {
+  const result = await (
+    await fetch(`/executor/skills/${event.target.value}`,)
+  ).json();
+document.getElementById('selectSkill').innerHTML = await render('skillsSelect', { skills: result.skills });
 })

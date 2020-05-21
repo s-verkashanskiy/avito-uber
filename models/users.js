@@ -51,7 +51,7 @@ const userSchema = new Schema({
     },
     skills:[{
       type: Schema.Types.ObjectId,
-      ref: 'Category'
+      ref: 'Skill'
     }]
 });
 
@@ -93,6 +93,10 @@ const categorySchema = new Schema({
     unique: true,
     required: true
   },
+  skills: [{
+    type: Schema.Types.ObjectId,
+    ref: 'Skill'
+  }]
 })
 
 

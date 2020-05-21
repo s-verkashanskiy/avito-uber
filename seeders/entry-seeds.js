@@ -4,6 +4,52 @@ const mongoose = require("mongoose");
 require("../middleware/db-connect");
 const { User, Skill, Order, Category } = require('../models/users');
 
+
+  //   Skill.insertMany([
+  //   {title: 'натальная карта'},
+  //   {title: 'прогноз на год (солар)'},
+  //   {title: 'гороскоп совместимости'},
+  //   {title: 'финансовый прогноз'},
+  //   {title: 'детский гороскоп'},
+  //   {title: 'предназначение и таланты'},
+  //   {title: 'расклад на ситуацию'},
+  //   {title: 'расклад на совместимость'},
+  //   {title: 'расклад на день'},
+  //   {title: 'расклад на месяц'},
+  // ]);
+
+  // Skill.insertMany([
+  //   {title: 'чтение бодиграфа'},
+  //   {title: 'совместимость по HD'},
+  //   {title: 'денежная линия в HD'},
+  //   {title: 'питание по HD'},
+  //   {title: 'матрица личности'},
+  //   {title: 'приворот'},
+  //   {title: 'отворот'},
+  //   {title: 'снятие заговоров на бедность'},
+  //   {title: 'снятие порчи и сглаза'},
+  // ]);
+
+  // Category.insertMany([
+  //   {
+  //   title: 'Астрология',
+  //   skills:['5ec683ce1bf5d27ee1ef7165','5ec683ce1bf5d27ee1ef7166','5ec683ce1bf5d27ee1ef7167','5ec683ce1bf5d27ee1ef7168','5ec683ce1bf5d27ee1ef716a','5ec683ce1bf5d27ee1ef7169']
+  // },
+  //   {
+  //     title: 'Таро',
+  //   skills:['5ec683ce1bf5d27ee1ef716b','5ec683ce1bf5d27ee1ef716c','5ec683ce1bf5d27ee1ef716d','5ec683ce1bf5d27ee1ef716e']
+
+  //   },
+  //   {
+  //   title: 'Human design',
+  //   skills:['5ec687a3b329f507c1529e3c','5ec687a3b329f507c1529e3d','5ec687a3b329f507c1529e3e','5ec687a3b329f507c1529e3f']
+  //   },
+  //   {
+  //     title: 'Эзотерика',
+  //   skills:['5ec687a3b329f507c1529e40','5ec687a3b329f507c1529e41','5ec687a3b329f507c1529e42','5ec687a3b329f507c1529e43','5ec687a3b329f507c1529e44']
+  //   },
+  // ]);
+
 const users = [], skills = [], orders = [], categories = [];
 
 skills.push(new Skill ({ title: 'Маг'}));

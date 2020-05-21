@@ -15,13 +15,16 @@ router.get('/orders',(req,res) => {
 });
 
 router.get('/editProfile',async (req,res) => {
-  const category = await Category.find();
-  console.log('>>>>>>>>>>>>>>>',category);
-  
-  const executor = await User.findById(req.session.user._id);
-  res.render('executor/editProfile',{executor, category})
+  const category = await Category.find().populate('skills');
+  const executor = await User.findById(req.session.user._id).populate('skills');
+  const firstCat = category[1];
+  res.render('executor/editProfile',{executor, category,firstCat})
 });
 
+router.get('/skills/:id',async (req,res) => {
+  const category = await Category.findById(req.params.id).populate('skills');
+  res.json({status:200,skills: category.skills})
+});
 router.post('/',async (req,res) =>{
 console.log('>>>>>>>>>>>>',req.body);
 const executor = await User.findById(req.session.user._id);
@@ -34,13 +37,6 @@ await executor.save();
   res.redirect('/executor')
 });
 
-router.delete('/',async (req,res) => {
-console.log(req.body.id);
-const index = executor.skills.indexOf(req.body.id);
-executor.skills.splice(index, 1);
-console.log(index);
-  res.json({status:200})
-});
 
 router.put('/',async (req,res) => {
   console.log(req.body.id);
@@ -49,10 +45,15 @@ router.put('/',async (req,res) => {
   executor.save();
   executor = await User.findById(req.session.user._id).populate('skills');
   console.log(executor);
-  // const executor2 = await User.findById(req.session.user._id).populate('skills');
-  // console.log(executor2);
-    
-    res.json({status:200})
-  });
+  
+  res.json({status:200})
+});
 
+router.delete('/',async (req,res) => {
+console.log(req.body.id);
+const index = executor.skills.indexOf(req.body.id);
+executor.skills.splice(index, 1);
+console.log(index);
+  res.json({status:200})
+});
 module.exports = router;

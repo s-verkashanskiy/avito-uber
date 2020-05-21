@@ -51,13 +51,13 @@ const userSchema = new Schema({
     },
     skills:[{
       type: Schema.Types.ObjectId,
-      ref: 'Category'
+      ref: 'Skill'
     }],
     feedback: [{
       feedContent: {
         type: String,
         trim: true,
-        required: [true, 'Не забудьте указать пароль, пожалуйста'],
+        // required: [true, 'Не забудьте указать пароль, пожалуйста'],
       },
       reviewer: {
         type: ObjectId,
@@ -95,8 +95,14 @@ const skillSchema = new Schema({
 const orderSchema = new Schema({
   title: {
     type: String,
-    unique: true,
     required: [true, 'Укажите тему заказа']
+  },
+  description: {
+    type: String,
+    required: [true, 'Укажите тему заказа']
+  },
+  price: {
+    type: Number
   },
   customer: {
     type: ObjectId,
@@ -123,7 +129,7 @@ const categorySchema = new Schema({
     required: true
   },
   skills: [{
-    type: ObjectId,
+    type: Schema.Types.ObjectId,
     ref: 'Skill',
     required: [true, 'Не указаны skills']
   }]

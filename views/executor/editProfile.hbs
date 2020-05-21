@@ -2,41 +2,39 @@
 
 <form action="/executor" method="post">
 
-<div style="height: 300px; width: 300px; border: solid black 2px;">
-  <img alt="eto {{executor.username}}">
-</div>
-<span>Имя: </span><input type="text" name="name" value="{{executor.username}}"><br>
-<span>Город: </span><input type="text" name="city" value="{{executor.city}}"><br>
-<span> О себе: </span><br>
-<textarea name="story" id="" cols="30" rows="10">{{executor.story}}</textarea><br>
-<span>Скилы: </span><br>
-<div id="skills">
-{{#each executor.skills}}
-<span id="{{_id}}">{{title}} <a href="" class="deleteSkill">X</a>|</span>
-{{/each}} <br>
-<select id="selectCategory">
-  {{#each category}}
-  <option value={{_id}}>
-    {{title}}
-  </option>
-  {{/each}}
-</select>
+  <div style="height: 300px; width: 300px; border: solid black 2px;">
+    <img alt="eto {{executor.username}}">
+  </div>
+  <span>Имя: </span><input type="text" name="name" value="{{executor.username}}"><br>
+  <span>Город: </span><input type="text" name="city" value="{{executor.city}}"><br>
+  <span> О себе: </span><br>
+  <textarea name="story" id="" cols="30" rows="10">{{executor.story}}</textarea><br>
+  <span>Скилы: </span><br>
+  <div id="skills">
+    {{#each executor.skills}}
+    <span id="{{_id}}">{{title}} <a href="" class="deleteSkill">X</a>|</span>
+    {{/each}}
+  </div>
+  <select id="selectCategory">
+    {{#each category}}
+    <option value={{_id}}>
+      {{title}}
+    </option>
+    {{/each}}
+  </select>
 
-<select id="selectSkill">
-  {{#each firstCat.skills}}
-  <option value={{_id}}>
-    {{title}}
-  </option>
-  {{/each}}
-</select>
-<button id="addSkill">Добавить</button>
+  <select id="selectSkill">
+    {{#each firstCat.skills}}
+    <option value={{_id}}>
+      {{title}}
+    </option>
+    {{/each}}
+  </select>
+  <button id="addSkill">Добавить</button>
 
-</div>
-<br>
-<br>
-<br>
-<br>
-<input name="editProfile" type="submit" value="ok">
+  <br>
+  <br>
+  <br>
+  <br>
+  <input name="editProfile" type="submit" value="ok">
 </form>
-
-

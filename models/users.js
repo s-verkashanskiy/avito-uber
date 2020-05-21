@@ -88,7 +88,6 @@ const skillSchema = new Schema({
   category: {
     type: ObjectId,
     ref: 'Category',
-    required: [true, 'Не задана категория для skill']
   }
 });
 

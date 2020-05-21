@@ -1,7 +1,7 @@
 const express = require("express");
 const bcrypt = require("bcrypt");
 const { sessionChecker } = require("../middleware/auth");
-const User = require("../models/users");
+const { User } = require("../models/users");
 
 const saltRounds = 10;
 const router = express.Router();
@@ -23,7 +23,9 @@ router
         email,
         password: await bcrypt.hash(password, saltRounds)
       });
+      
       await user.save();
+      console.log(user);
       req.session.user = user;
       res.redirect("/dashboard");
     } catch (error) {

@@ -22,13 +22,13 @@ router
         username,
         email,
         password: await bcrypt.hash(password, saltRounds),
-        isExecutor: ( role === 'Исполнитель' ) ? 'true' : 'false'
+        isExecutor: ( role === 'Исполнитель' ) ? true : false
       });
       
       await user.save();
       console.log(user);
       req.session.user = user;
-      if (user.isExecutor === 'true') res.redirect("/executor");
+      if (user.isExecutor) res.redirect("/executor");
       else res.redirect("/customer");
     } catch (error) {
       next(error);
@@ -47,7 +47,7 @@ router
 
     if (user && (await bcrypt.compare(password, user.password))) {
       req.session.user = user;
-      if (user.isExecutor === 'true') res.redirect("/executor");
+      if (user.isExecutor) res.redirect("/executor");
       else res.redirect("/customer");
     } else {
       res.redirect("/login");

@@ -65,6 +65,5 @@ router.post("/neworder", async (req, res) => {
 
 router.get("/myOrders", async (req, res) => {});
 
-module.exports = router;
 
 module.exports = router;

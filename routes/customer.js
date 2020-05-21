@@ -40,12 +40,6 @@ router.post('/profile/upload', function(req, res) {
   });
 });
 
-// router.post("/profile/upload", (req, res) => {
-//   if (req.files) {
-//     console.log(req.files);
-//   }
-// });
-
 // Создать новый заказ
 router.get("/neworder", async (req, res) => {
   res.render("customer_newOrder");
@@ -66,4 +60,3 @@ router.post("/neworder", async (req, res) => {
 router.get("/myOrders", async (req, res) => {});
 
 
-module.exports = router;

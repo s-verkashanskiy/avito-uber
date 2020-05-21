@@ -18,6 +18,7 @@ router.post("/profile", async (req, res) => {
   console.log(req.body);
   res.redirect("/customer/profile");
 });
+
 // Зарузка фотки
 router.post('/profile/upload', function(req, res) {
   console.log(req.files)
@@ -34,7 +35,8 @@ router.post('/profile/upload', function(req, res) {
     if (err)
       return res.status(500).send(err);
 
-    res.redirect('/profile');
+    const uploaded = {message: 'Файл успешно загружен'}
+    res.render('customer_profile', uploaded);
   });
 });
 

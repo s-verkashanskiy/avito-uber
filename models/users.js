@@ -52,6 +52,30 @@ const userSchema = new Schema({
     skills:[{
       type: Schema.Types.ObjectId,
       ref: 'Category'
+    }],
+    feedback: [{
+      feedContent: {
+        type: String,
+        trim: true,
+        required: [true, 'Не забудьте указать пароль, пожалуйста'],
+      },
+      reviewer: {
+        type: ObjectId,
+        ref: 'User'
+      },
+      rating: {
+        type: Number,
+        enum: ['1', '2', '3', '4', '5'],
+      },
+      orders: {
+        type: ObjectId,
+        ref: 'Order',
+        required: [true, 'Не задана ссылка на заказ'],  
+      },
+      registrationDate: {
+        type: String,
+        default: new Date().toUTCString()
+      }
     }]
 });
 
@@ -59,7 +83,12 @@ const skillSchema = new Schema({
   title: {
     type: String,
     unique: true,
-    required: true
+    required: [true, 'Не задано название навыка']
+  },
+  category: {
+    type: String,
+    ref: 'Category',
+    required: [true, 'Не задана категория для skill']
   }
 });
 
@@ -67,7 +96,7 @@ const orderSchema = new Schema({
   title: {
     type: String,
     unique: true,
-    required: true
+    required: [true, 'Укажите тему заказа']
   },
   customer: {
     type: ObjectId,
@@ -93,6 +122,11 @@ const categorySchema = new Schema({
     unique: true,
     required: true
   },
+  skills: [{
+    type: ObjectId,
+    ref: 'Skill',
+    required: [true, 'Не указаны skills']
+  }]
 })
 
 

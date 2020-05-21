@@ -56,9 +56,9 @@ users.push(new User ({
 }));
 
 categories.push(new Category ({ title: 'Астрология'}));
-categories.push(new Category ({ title: 'Гадание'}));
-categories.push(new Category ({ title: 'Нумерология'}));
-categories.push(new Category ({ title: 'Магия'}));
+categories.push(new Category ({ title: 'Human Design'}));
+categories.push(new Category ({ title: 'Таро'}));
+categories.push(new Category ({ title: 'Эзотерика'}));
 
 orders.push(new Order ({
   title: 'Заказ №1',
@@ -85,6 +85,10 @@ orders.push(new Order ({
   categories: [categories[2]._id, categories[3]._id]
 }));
 
+skills.push(new Skill ({
+  title: 'Натальная карта',
+  
+}))
 
 Skill.insertMany(skills)
 .then(() => User.insertMany(users))

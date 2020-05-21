@@ -9,8 +9,11 @@ router.use(fileUpload({
   debug: true, 
 }));
 // Редактирование профиля
-router.get("/profile", (req, res) => {
-  let customer = { name: "Petya", city: "Moscow" };
+router.get("/profile", async (req, res) => {
+  // let customer = await User.findOne({name: req.body.name})
+  console.log(req.session)
+  // let userDb = await User.findOne({name: req.body.name})
+  let customer = ({username: 'Petya', city: 'San'})
   res.render("customer_profile", customer);
 });
 
@@ -40,12 +43,6 @@ router.post('/profile/upload', function(req, res) {
   });
 });
 
-// router.post("/profile/upload", (req, res) => {
-//   if (req.files) {
-//     console.log(req.files);
-//   }
-// });
-
 // Создать новый заказ
 router.get("/neworder", async (req, res) => {
   res.render("customer_newOrder");
@@ -67,4 +64,3 @@ router.get("/myOrders", async (req, res) => {});
 
 module.exports = router;
 
-module.exports = router;

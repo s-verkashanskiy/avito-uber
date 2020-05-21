@@ -9,7 +9,7 @@ router.use(fileUpload({
   debug: true, 
 }));
 // Редактирование профиля
-router.get("/profile", (req, res) => {
+router.get(['/', "/profile"], (req, res) => {
   let customer = { name: "Petya", city: "Moscow" };
   res.render("customer_profile", customer);
 });

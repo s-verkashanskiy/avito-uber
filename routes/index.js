@@ -17,17 +17,19 @@ router
   })
   .post(async (req, res, next) => {
     try {
-      const { username, email, password } = req.body;
+      const { username, email, password, role } = req.body;
       const user = new User({
         username,
         email,
-        password: await bcrypt.hash(password, saltRounds)
+        password: await bcrypt.hash(password, saltRounds),
+        isExecutor: ( role === 'Исполнитель' ) ? 'true' : 'false'
       });
       
       await user.save();
       console.log(user);
       req.session.user = user;
-      res.redirect("/dashboard");
+      if (user.isExecutor === 'true') res.redirect("/executor");
+      else res.redirect("/customer");
     } catch (error) {
       next(error);
     }
@@ -39,13 +41,14 @@ router
     res.render("login");
   })
   .post(async (req, res) => {
-    const { username, password } = req.body;
+    const { email, password } = req.body;
 
-    const user = await User.findOne({ username });
+    const user = await User.findOne({ email });
 
     if (user && (await bcrypt.compare(password, user.password))) {
       req.session.user = user;
-      res.redirect("/dashboard");
+      if (user.isExecutor === 'true') res.redirect("/executor");
+      else res.redirect("/customer");
     } else {
       res.redirect("/login");
     }

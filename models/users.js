@@ -27,13 +27,13 @@ const userSchema = new Schema({
       default: new Date().toUTCString()
     },
     isExecutor: {
-      type: Boolean,
-      default: false
+      type: String,
+      default: 'false'
     },
     phone: {
       type: String,
       trim: true,
-      unique: true,
+      // unique: true,
       validate: {
         validator: function(v) {
           return /\d{3}-\d{3}-\d{4}/.test(v);

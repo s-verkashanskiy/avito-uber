@@ -27,8 +27,8 @@ const userSchema = new Schema({
       default: new Date().toUTCString()
     },
     isExecutor: {
-      type: String,
-      default: 'false'
+      type: Boolean,
+      default: false
     },
     phone: {
       type: String,

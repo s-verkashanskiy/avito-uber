@@ -1,3 +1,4 @@
+require('dotenv').config();
 // Подключаем mongoose.
 const mongoose = require("mongoose");
 require("../middleware/db-connect");
@@ -17,7 +18,7 @@ users.push(new User ({
   username: 'Ilya',
   email: 'ilya01@gmail.com',
   password: '$2b$10$8dKRv/vxfqF1xbUtCbLltOOQF8sm7jtblIT/12bwBAVqwIE85395W',
-  isExecutor: 'true',
+  isExecutor: true,
   phone: '999-999-9999',
   city: 'Moscow',
   story: 'all is Good!',
@@ -27,7 +28,7 @@ users.push(new User ({
   username: 'SergeyS',
   email: 'ss@gmail.com',
   password: '$2bfgf$8dKRv/vxfqF1xbUtCbLltOOQF8sm7jtblIT/12bwBAVqwIE85395W',
-  isExecutor: 'true',
+  isExecutor: true,
   phone: '916-333-9999',
   city: 'St. Petersburg',
   story: 'all is Good!',
@@ -37,7 +38,7 @@ users.push(new User ({
   username: 'Yura',
   email: 'yura@gmail.com',
   password: '$34510$8dKRv/vxfqF1xbUtCbLltOOQF8sm7jtblIT/12bwBAVqwIE85395W',
-  isExecutor: 'true',
+  isExecutor: true,
   phone: '903-304-5555',
   city: 'Moscow',
   story: 'all is Good!',
@@ -47,7 +48,7 @@ users.push(new User ({
   username: 'SergeyV',
   email: 'stype@yandex.ru',
   password: '$2b$10$8dKRv/vxfqF1xbUtCbLltOOQF8sm7jtblIT/12bwBAVqwIE85395W',
-  isExecutor: 'true',
+  isExecutor: true,
   phone: '916-550-2175',
   city: 'Moscow',
   story: 'all is Good!',

@@ -1,11 +1,11 @@
 const express = require("express");
-// const Executor = require("../models/executor");
-const {gendolf, orders} = require('../models/executor');
-const router = express.Router();
-const executor = gendolf;
+const {User, Category} = require("../models/users");
 
-router.get('/',(req,res) => {
-  // const executor = Executor.findById(req.session.id);
+const router = express.Router();
+// const executor = gendolf;
+
+router.get('/',async (req,res) => {
+  const executor = await User.findById(req.session.user._id);
   res.render('executor/executor',{executor})
 });
 
@@ -14,30 +14,45 @@ router.get('/orders',(req,res) => {
   res.render('executor/orders',{orders})
 });
 
-router.get('/editProfile',(req,res) => {
-  // const executor = Executor.findById(req.session.id);
-  res.render('executor/editProfile',{executor})
+router.get('/editProfile',async (req,res) => {
+  const category = await Category.find();
+  console.log('>>>>>>>>>>>>>>>',category);
+  
+  const executor = await User.findById(req.session.user._id);
+  res.render('executor/editProfile',{executor, category})
 });
 
-router.post('/',(req,res) => {
+router.post('/',async (req,res) =>{
 console.log('>>>>>>>>>>>>',req.body);
+const executor = await User.findById(req.session.user._id);
 const {name, city, story} = req.body;
-gendolf.city = city;
-gendolf.name = name;
-gendolf.story = story;
+executor.city = city;
+executor.username = name;
+executor.story = story;
+await executor.save();
 
-  // const executor = Executor.findById(req.session.id);
   res.redirect('/executor')
 });
 
-router.delete('/',(req,res) => {
+router.delete('/',async (req,res) => {
 console.log(req.body.id);
 const index = executor.skills.indexOf(req.body.id);
 executor.skills.splice(index, 1);
 console.log(index);
-
-
   res.json({status:200})
 });
+
+router.put('/',async (req,res) => {
+  console.log(req.body.id);
+  let executor = await User.findById(req.session.user._id);
+  executor.skills.push(req.body.id);
+  executor.save();
+  executor = await User.findById(req.session.user._id).populate('skills');
+  console.log(executor);
+  // const executor2 = await User.findById(req.session.user._id).populate('skills');
+  // console.log(executor2);
+    
+    res.json({status:200})
+  });
 
 module.exports = router;

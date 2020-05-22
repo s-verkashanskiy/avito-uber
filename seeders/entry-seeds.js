@@ -525,5 +525,4 @@ orders.push(new Order ({
 // .catch( error => console.log(error));
 
 // 'чтение бодиграфа'
-User.getUsersWithSkill('чтение бодиграфа');
-
+// User.getUsersWithSkill('чтение бодиграфа');

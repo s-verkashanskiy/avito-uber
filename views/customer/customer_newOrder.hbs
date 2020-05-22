@@ -1,33 +1,32 @@
 <script defer src="/js/customer.js"></script>
 <form method='post' action="/customer/neworder">
-<h4>Название</h4>
-<input type="text" name='title'>
-<h4>Описание</h4>
-<textarea  name='description'> </textarea>
-<h4>Цена</h4>
-<input type="number" name="price">
+  <h4>Название</h4>
+  <input type="text" name='title'>
+  <h4>Описание</h4>
+  <textarea name='description'> </textarea>
+  <h4>Срок исполнения</h4>
+  <input type="text" name="expirationDate">
 
-<div id="skills">
-{{#each order.skills}}
-<span id="{{_id}}">{{title}} <a href="" class="deleteSkill">X</a>|</span>
-{{/each}} <br>
-<select id="selectCategory">
-  {{#each category}}
-  <option value={{_id}}>
-    {{title}}
-  </option>
-  {{/each}}
-</select>
+  <div id="skills">
+    {{#each order.skills}}
+    <span id="{{_id}}">{{title}} <a href="" class="deleteSkill">X</a>|</span>
+    {{/each}} <br>
+    <select name="category" id="selectCategory">
+      {{#each category}}
+      <option value={{_id}}>
+        {{title}}
+      </option>
+      {{/each}}
+    </select>
 
-<select id="selectSkill">
-  {{#each firstCat.skills}}
-  <option value={{_id}}>
-    {{title}}
-  </option>
-  {{/each}}
-</select>
-<button id="addSkill">Добавить</button>
+    <select name="skill" id="selectSkill">
+      {{#each firstCat.skills}}
+      <option value={{_id}}>
+        {{title}}
+      </option>
+      {{/each}}
+    </select>
 
 
-<input type="submit" value='Сохранить'>
+    <input type="submit" id="save" value="Сохранить">
 </form>

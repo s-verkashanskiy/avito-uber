@@ -8,13 +8,14 @@ async function render(templateName, data) {
   return Templates[templateName](data);
 }
 
+
 document.body.addEventListener('click', async (event) => {
   if (event.target.className === 'deleteSkill'){
     event.preventDefault();
     console.log(event.target.parentNode.id);
     
     const result = await (
-      await fetch(`/executor`, {
+      await fetch(`/customer`, {
         method: "delete",
         headers: {
           "Content-Type": "application/json",
@@ -27,12 +28,10 @@ document.body.addEventListener('click', async (event) => {
     event.target.parentNode.remove();
   }
 
-  if (event.target.id === 'addSkill'){
-    event.preventDefault();
-    const select = document.getElementById('selectSkill');
-    console.log(select.value);
-  }
 
+    console.log(result);
+    
+  }
 })
 
 document.getElementById('selectCategory').addEventListener('change',async (event) => {

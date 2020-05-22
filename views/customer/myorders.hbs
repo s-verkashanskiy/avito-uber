@@ -7,7 +7,14 @@
   <div >
     <div>Тема: <br>{{title}}</div>
     <div>Описание:{{description}}</div>
-    <div>Цена: {{price}}</div>
+    <div>Дата публикации: {{publicationDate}}</div>
+    <div>Срок исполнения: {{expirationDate}}</div>
+  {{#each categories}}
+  <div>Категория: {{title}}</div>
+  {{/each}}
+    {{#each skills}}
+    <div>Скилл: {{title}}</div>
+    {{/each}}
     <a href="/customer/myorders/{{id}}/edit">Редактировать</a>
     <a href="/customer/myorders/{{id}}/delete">Удалить</a>
     <hr/>

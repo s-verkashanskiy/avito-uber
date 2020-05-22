@@ -47,7 +47,7 @@ router.post('/profile/upload', function(req, res) {
       return res.status(500).send(err);
 
     const uploaded = {message: 'Файл успешно загружен'}
-    res.render('customer_profile', uploaded);
+    res.render('customer/customer_profile', uploaded);
   });
 });
 
@@ -62,15 +62,23 @@ router.get("/neworder", async (req, res) => {
 router.post("/neworder", async (req, res) => {
 
   let customer = await User.findOne({email: req.session.user.email})
-  console.log(req.body.title)
+
+  // const price = await new Price({
+  //   costRange: req.body.price,
+    
+  // })
+  // await price.save()
+
   const order = await new Order({
+    expirationDate: req.body.expirationDate,
     title: req.body.title,
     customer: customer,
-    description: req.body.description
-    // categories: req.body.tags
+    description: req.body.description,
+    categories: req.body.category, 
+    skills: req.body.skill
   })
   await order.save()
-  console.log(order);
+  console.log(order)
   res.redirect("/customer/myOrders");
 });
 
@@ -82,14 +90,18 @@ router.get('/skills/:id', async (req, res) => {
 
 router.get("/myOrders", async (req, res) => {
   let customer = await User.findOne({email: req.session.user.email})
-  const orders = await Order.find({customer: customer})
+  const orders = await Order.find({customer: customer}).populate('responses');
+  
+  console.log(orders)
+  // populate('skills').populate('categories').
+  // const skills = await Order.find({skills: orders.skills}).populate('skills')
   res.render('customer/myorders', {orders})
 });
 
 router.get('/myOrders/:id/edit', async function (req, res, next) {
   const category = await Category.find().populate('skills');
   const firstCat = category[1];
-  let order = await Order.findById(req.params.id);
+  let order = await Order.findById(req.params.id);  
   res.render('customer/editOrder', {firstCat, order, category});
 });
 
@@ -98,8 +110,9 @@ router.post('/myOrders/:id/edit', async function (req, res, next) {
   console.log(req.body)
   order.title  = req.body.title 
   order.description = req.body.description
-  order.price = req.body.price
-  order.categories = req.body.tags 
+  // order.price = req.body.price
+  // order.categories = req.body.tags 
+  order.expirationDate = req.body.expirationDate
   await order.save()
   console.log(order)
   res.redirect('/customer/myOrders')

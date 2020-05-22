@@ -32,7 +32,7 @@ document.body.addEventListener('click', async (event) => {
 
     const select = document.getElementById('selectSkill');
     const result = await (
-      await fetch(`/executor`, {
+      await fetch(`/customer`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",

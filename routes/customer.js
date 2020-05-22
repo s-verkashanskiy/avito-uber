@@ -13,6 +13,7 @@ router.use(fileUpload({
 }));
 // Редактирование профиля
 router.get(['/', "/profile"], async (req, res) => {
+
   let customer = await User.findOne({email: req.session.user.email})
   res.render("customer/customer_profile", customer);
 });
@@ -26,7 +27,7 @@ router.post("/profile", async (req, res) => {
   customer.story = req.body.story;
   await customer.save();
   console.log(customer)
-  res.redirect("/customer/profile");
+  res.redirect("/customer/myOrders");
 });
 
 // Зарузка фотки
@@ -46,49 +47,70 @@ router.post('/profile/upload', function(req, res) {
       return res.status(500).send(err);
 
     const uploaded = {message: 'Файл успешно загружен'}
-    res.render('customer_profile', uploaded);
+    res.render('customer/customer_profile', uploaded);
   });
 });
 
 
 // Создать новый заказ
 router.get("/neworder", async (req, res) => {
-  res.render("customer/customer_newOrder");
+  const category = await Category.find().populate('skills');
+  const firstCat = category[1];
+  res.render("customer/customer_newOrder", {category, firstCat});
 });
 
 router.post("/neworder", async (req, res) => {
 
   let customer = await User.findOne({email: req.session.user.email})
-  console.log(req.body.title)
+
+  // const price = await new Price({
+  //   costRange: req.body.price,
+    
+  // })
+  // await price.save()
+
   const order = await new Order({
+    expirationDate: req.body.expirationDate,
     title: req.body.title,
     customer: customer,
-    description: req.body.description
-    // categories: req.body.tags
+    description: req.body.description,
+    categories: req.body.category, 
+    skills: req.body.skill
   })
   await order.save()
-  console.log(order);
+  console.log(order)
   res.redirect("/customer/myOrders");
 });
 
+router.get('/skills/:id', async (req, res) => {
+  console.log(req.params)
+ const category = await Category.findById(req.params.id).populate('skills');
+ res.json({skills: category.skills});
+})
+
 router.get("/myOrders", async (req, res) => {
   let customer = await User.findOne({email: req.session.user.email})
-  const orders = await Order.find({customer: customer})
+  const orders = await Order.find({customer: customer}).populate('skills').populate('categories').populate('responses')
+  console.log(orders)
+  // const skills = await Order.find({skills: orders.skills}).populate('skills')
   res.render('customer/myorders', {orders})
 });
 
 router.get('/myOrders/:id/edit', async function (req, res, next) {
-  let order = await Order.findById(req.params.id);
-  res.render('customer/editOrder',  order);
+  const category = await Category.find().populate('skills');
+  const firstCat = category[1];
+  let order = await Order.findById(req.params.id);  
+  res.render('customer/editOrder', {firstCat, order, category});
 });
 
 router.post('/myOrders/:id/edit', async function (req, res, next) {
   let order = await Order.findById(req.params.id)
   console.log(req.body)
-  order.title  = req.body.title
+  order.title  = req.body.title 
   order.description = req.body.description
-  order.price = req.body.price
+  // order.price = req.body.price
   // order.categories = req.body.tags 
+  order.expirationDate = req.body.expirationDate
   await order.save()
   console.log(order)
   res.redirect('/customer/myOrders')

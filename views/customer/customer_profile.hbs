@@ -5,9 +5,9 @@
 <h4>Город</h4>
 <input type='text' name='city' value={{this.city}}>
 <h4>Телефон</h4>
-<input type='text' name='phone' value={{this.phone}} placeholder='900-000-0000'>
+<input type='text' name='phone' value="{{this.phone}}" placeholder="900-000-0000">
 <h4>О себе</h4>
-<textarea name='story' placeholder={{this.story}}> </textarea>
+<textarea name='story'> {{this.story}}</textarea>
 <button type='submit'>Enter</button>
 </form>
 
@@ -22,7 +22,7 @@
         <input type='submit' value='Upload!' />
     </form>    
 
-<a href="http://localhost:3000/customer/neworder">Create new order</a>
+<a href="http://localhost:3000/customer/neworder">Создать новый заказ</a>
 <a href="http://localhost:3000/customer/myorders">Show my orders</a>
 
 {{!-- <form method="POST" action="/customer/profile/upload" enctype = "multipart/form-data" >

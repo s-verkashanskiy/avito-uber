@@ -65,7 +65,7 @@ router.get("/dashboard", sessionChecker(), async (req, res) => {
       res.render("dashboard", {
         category,
         firstCat: '',
-        orders: await Order.getAllOrders()
+        orders: await Order.getAllOrders(),
       });
     } catch (error) {
       next(error);

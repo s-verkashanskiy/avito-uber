@@ -27,7 +27,7 @@ router.get("/doResponse/:id", async (req, res) => {
    console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyyy');
     order.responses.push(userId);
     order.save();
-    res.json({status:200})
+    res.json({status: 200})
   } else {
    console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
     res.json({status: 400})

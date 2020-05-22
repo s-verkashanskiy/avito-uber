@@ -3,7 +3,12 @@ const { User } = require("../models/users");
 const { Order, Category, Skill, Price } = require("../models/orders");
 
 const router = express.Router();
-// const executor = gendolf;
+
+const fs = require("fs");
+const fileUpload = require("express-fileupload");
+
+router.use(fileUpload({ 
+}));
 
 router.get("/", async (req, res) => {
   const executor = await User.findById(req.session.user._id).populate('skills');
@@ -27,7 +32,6 @@ router.get("/skills/:id", async (req, res) => {
   res.json({ status: 200, skills: category.skills });
 });
 router.post("/", async (req, res) => {
-  console.log(">>>>>>>>>>>>", req.body);
   const executor = await User.findById(req.session.user._id);
   const { name, city, story } = req.body;
   executor.city = city;
@@ -59,4 +63,27 @@ router.delete("/", async (req, res) => {
   console.log(index);
   res.json({ status: 200 });
 });
+
+
+
+router.post('/avatar', function(req, res) {
+  console.log(req.files)
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send('No files were uploaded.');
+  }
+
+  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
+  let sampleFile = req.files.userFile;
+  let fileName = sampleFile.name;
+
+  // Use the mv() method to place the file somewhere on your server
+ sampleFile.mv('./uploads/' + fileName, function(err) {
+    if (err)
+      return res.status(500).send(err);
+    res.redirect('/executor/editProfile')
+  });
+});
+
+
+
 module.exports = router;

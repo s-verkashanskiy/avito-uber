@@ -1,10 +1,14 @@
 <script defer src="/js/executor.js"></script>
-
-<form action="/executor" method="post">
-
   <div style="height: 300px; width: 300px; border: solid black 2px;">
     <img alt="eto {{executor.username}}">
   </div>
+  <form id="uploadForm" enctype="multipart/form-data" action="/executor/avatar" method="post">
+  <input type="file" name="userFile" required>
+  <input type="submit" value="загрузить" name="submit">
+</form>
+
+<form action="/executor" method="post">
+
   <span>Имя: </span><input type="text" name="name" value="{{executor.username}}"><br>
   <span>Город: </span><input type="text" name="city" value="{{executor.city}}"><br>
   <span> О себе: </span><br>

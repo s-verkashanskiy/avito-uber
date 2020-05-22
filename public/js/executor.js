@@ -45,12 +45,21 @@ document.body.addEventListener('click', async (event) => {
     if (result.status === 200){
       document.getElementById('skills').innerHTML += await render('addSkill', {skill: result.skill});
     }
-    console.log(result);   
+  }
+
+  if (event.target.id === 'doResponse'){
+    const id = event.target.parentNode.id;    
+    const result = await (
+      await fetch(`/executor/doResponse/${id}`)
+    ).json();
+  }
+  if (result.status === 200){
+    event.target.parentNode.innerHTML += '<p>Отклик отправлен!<p>'
+  } else {
+    event.target.parentNode.innerHTML += '<p>Уже откликнулся!<p>'
   }
 
 })
-
-
 
 
 document.getElementById('selectCategory').addEventListener('change', async (event) => {

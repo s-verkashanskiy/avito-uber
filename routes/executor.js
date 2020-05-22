@@ -15,9 +15,23 @@ router.get("/", async (req, res) => {
   res.render("executor/executor", { executor });
 });
 
-router.get("/orders", (req, res) => {
-  // const executor = Order.find();
-  res.render("executor/orders", { orders });
+router.get("/orders", async (req, res) => {
+  const orders = await Order.find();
+  res.render("dashboard", { orders, isExecutor: true});
+});
+router.get("/doResponse/:id", async (req, res) => {
+  const userId = req.session.user._id;
+  const orderId = req.params.id
+  const order = await Order.findById(orderId);
+  if (!order.responses.includes(userId)){
+   console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+    order.responses.push(userId);
+    order.save();
+    res.json({status:200})
+  } else {
+   console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
+    res.json({status: 400})
+  }
 });
 
 router.get("/editProfile", async (req, res) => {
@@ -31,6 +45,7 @@ router.get("/skills/:id", async (req, res) => {
   const category = await Category.findById(req.params.id).populate("skills");
   res.json({ status: 200, skills: category.skills });
 });
+
 router.post("/", async (req, res) => {
   const executor = await User.findById(req.session.user._id);
   const { name, city, story } = req.body;
@@ -38,7 +53,6 @@ router.post("/", async (req, res) => {
   executor.username = name;
   executor.story = story;
   await executor.save();
-
   res.redirect("/executor");
 });
 
@@ -64,26 +78,25 @@ router.delete("/", async (req, res) => {
   res.json({ status: 200 });
 });
 
-
-
-router.post('/avatar', function(req, res) {
-  console.log(req.files)
+router.post('/avatar',async (req, res) => {
+  console.log(req.files.userFile.name)
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
-
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
   let sampleFile = req.files.userFile;
-  let fileName = sampleFile.name;
+  let fileName = req.files.userFile.name;
+  const imgType = fileName.slice(fileName.lastIndexOf("."))
 
-  // Use the mv() method to place the file somewhere on your server
- sampleFile.mv('./uploads/' + fileName, function(err) {
+ sampleFile.mv(`./uploads/${req.session.user._id}/avatar${imgType}`,async (err) => {
     if (err)
       return res.status(500).send(err);
-    res.redirect('/executor/editProfile')
+    const user = await User.findById(req.session.user._id);
+    user.avatar = `/avatar${imgType}`;
+    user.save();
+    res.redirect('/executor/editProfile');
   });
-});
 
+});
 
 
 module.exports = router;

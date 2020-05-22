@@ -1,6 +1,6 @@
 <script defer src="/js/executor.js"></script>
   <div style="height: 300px; width: 300px; border: solid black 2px;">
-    <img alt="eto {{executor.username}}">
+      <img style="height: 300px; width: 300px;" src={{executor.avatar}} alt="eto {{executor.username}}">
   </div>
   <form id="uploadForm" enctype="multipart/form-data" action="/executor/avatar" method="post">
   <input type="file" name="userFile" required>

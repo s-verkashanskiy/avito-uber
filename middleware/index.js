@@ -8,6 +8,7 @@ module.exports = function(app) {
   const { cookiesCleaner } = require("./auth");
   const dbConnection = require("./db-connect");
   const hbs = require('hbs');
+  const fs = require('fs')
 
   app.use(morgan("dev"));
 
@@ -50,6 +51,19 @@ module.exports = function(app) {
   app.set("views", path.join(__dirname, '..', "views"));
   hbs.registerPartials(path.join(__dirname, '..', "views", 'partials'));
   app.set("view engine", "hbs");
+  
+  app.use((req, res, next) => {
+    const user = req.session.user
+      if(user){
+        if (!fs.existsSync(`uploads/${user._id}/`)){
+          fs.mkdirSync(`uploads/${user._id}/`);
+        }
+        // express.static(path.join(__dirname, `uploads/${user._id}`))(req, res, next);
+        express.static(`./uploads/${user._id}/`)(req, res, next);
+      }else{
+        next()
+      }
+  });
 
 };
 

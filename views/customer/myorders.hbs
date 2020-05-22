@@ -15,6 +15,10 @@
     {{#each skills}}
     <div>Скилл: {{title}}</div>
     {{/each}}
+  <p>Откликнулись: </p>
+  {{#each responses}}
+  <div> <a style="color:red" href="/executer/{{id}}">{{username}}</a></div>
+  {{/each}}
     <a href="/customer/myorders/{{id}}/edit">Редактировать</a>
     <a href="/customer/myorders/{{id}}/delete">Удалить</a>
     <hr/>

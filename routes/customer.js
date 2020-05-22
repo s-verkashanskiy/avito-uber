@@ -82,11 +82,6 @@ router.post("/neworder", async (req, res) => {
   res.redirect("/customer/myOrders");
 });
 
-router.get('/skills/:id', async (req, res) => {
-  console.log(req.params)
- const category = await Category.findById(req.params.id).populate('skills');
- res.json({skills: category.skills});
-})
 
 router.get("/myOrders", async (req, res) => {
   let customer = await User.findOne({email: req.session.user.email})

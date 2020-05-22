@@ -1,19 +1,32 @@
-<div style="height: 300px; width: 300px; border: solid black 2px;">
-  <img style="height: 300px; width: 300px;" src={{executor.avatar}} alt="eto {{executor.username}}">
+
+<div class="main">
+  <div>
+    <div style="height: 300px; width: 300px; border: solid black 2px;">
+      <img style="height: 300px; width: 300px;" src={{executor.avatar}} alt="eto {{executor.username}}">
+    </div>
+
+    <h1>{{executor.username}}</h1>
+    <span>{{executor.city}}</span><br>
+    <span>{{executor.email}}</span>
+    <p>{{executor.story}}</p>
+    {{#each executor.skills}}
+    <span>{{title}}, </span>
+    {{/each}}
+    <br>
+    <a href="/executor/editProfile">редактировать профиль</a>
+    <br>
+    <br>
+    <br>
+    <a href="/executor/orders">Заказы</a>
+    <a href="/executor/orders">Отклики</a>
+  </div>
+
+  <div>
+
+    <div class="category">
+      ваыаыаыва
+    </div>
+
+  </div>
+
 </div>
-
-
-<h1>{{executor.username}}</h1>
-<span>{{executor.city}}</span><br>
-<span>{{executor.email}}</span>
-<p>{{executor.story}}</p>
-{{#each executor.skills}}
-<span>{{title}}, </span>
-{{/each}}
-<br>
-<a href="/executor/editProfile">редактировать профиль</a>
-<br>
-<br>
-<br>
-<a href="/executor/orders">Заказы</a>
-<a href="/executor/orders">Отклики</a>

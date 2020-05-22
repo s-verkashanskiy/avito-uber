@@ -1,5 +1,7 @@
+<script defer src="/js/executor.js"></script>
+
 <div class="page-header">
-    <h1>Заказы</h1>
+    <h1>Услуги</h1>
 </div>
 
 <nav class="navbar navbar-default">
@@ -11,7 +13,7 @@
                 {{#unless isAuth }}
                   <li><a href="/signup">Sign Up</a></li>
                 {{/unless}}
-                <li><a href="/services">Услуги</a></li>
+                <li><a href="/dashboard">Заказы</a></li>
             </ul>
 
             <ul class="nav navbar-nav navbar-right">
@@ -24,13 +26,32 @@
     </div><!-- /.container-fluid -->
 </nav>
 
+<select id="selectCategory">
+    {{#each category}}
+    <option value={{_id}}>
+      {{title}}
+    </option>
+    {{/each}}
+  </select>
+
+  <select id="selectSkill">
+    {{#each firstCat.skills}}
+    <option value={{_id}}>
+      {{title}}
+    </option>
+    {{/each}}
+  </select>
+  <button id="chooseSkill">Применить</button>
+<br />
+<br />
+
 <div class="container row">
 
-    {{#each orders}}
+    {{#each users}}
       <ul>
-        <li><b>Тема заказа: </b>{{this.title}}</li>
-        <li><b>Описание заказа: </b>{{this.description}}</li>
-        <li><b>Выполнить до: </b>{{this.expirationDate}}</li>
+        <li><b>Имя специалиста: </b>{{this.username}}</li>
+        <li><b>Местоположение: </b>{{this.city}}</li>
+        <li><b>Скиллы: </b>{{this.skills}}</li>
         <br/>
       </ul>
     {{/each}}

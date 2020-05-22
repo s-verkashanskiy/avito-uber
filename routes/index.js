@@ -2,17 +2,18 @@ const express = require("express");
 const bcrypt = require("bcrypt");
 const { sessionChecker } = require("../middleware/auth");
 const { User } = require("../models/users");
+const { Order, Category, Skill, Price } = require("../models/orders");
 
 const saltRounds = 10;
 const router = express.Router();
 
-router.get("/", sessionChecker, (req, res) => {
-  res.redirect("/login");
+router.get('/', sessionChecker('home'), (req, res) => {
+  res.render("home");
 });
 
 router
   .route("/signup")
-  .get(sessionChecker, (req, res) => {
+  .get(sessionChecker('home'), (req, res) => {
     res.render("signup");
   })
   .post(async (req, res, next) => {
@@ -26,7 +27,7 @@ router
       });
       
       await user.save();
-      console.log(user);
+
       req.session.user = user;
       if (user.isExecutor) res.redirect("/executor");
       else res.redirect("/customer");
@@ -37,7 +38,7 @@ router
 
 router
   .route("/login")
-  .get(sessionChecker, (req, res) => {
+  .get(sessionChecker('home'), (req, res) => {
     res.render("login");
   })
   .post(async (req, res) => {
@@ -54,13 +55,17 @@ router
     }
   });
 
-router.get("/dashboard", (req, res) => {
-  const { user } = req.session;
-  if (req.session.user) {
-    res.render("dashboard", { name: user.username });
-  } else {
-    res.redirect("/login");
-  }
+router.get("/dashboard", sessionChecker('dashboard'), async (req, res) => {
+  res.render("dashboard", { orders: await Order.getAllOrders() });
+});
+router.get("/services", async (req, res) => {
+  //getUsersWithSkill()
+  const category = await Category.find().populate('skills');
+  res.render("services", {
+    category,
+    firstCat: category[0],
+    users: await User.getAllUsers()
+  });
 });
 
 router.get("/logout", async (req, res, next) => {
@@ -76,5 +81,6 @@ router.get("/logout", async (req, res, next) => {
     res.redirect("/login");
   }
 });
+
 
 module.exports = router;

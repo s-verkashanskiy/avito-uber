@@ -7,8 +7,8 @@ const { Order, Category, Skill, Price } = require("../models/orders");
 const saltRounds = 10;
 const router = express.Router();
 
-router.get('/', sessionChecker('home'), (req, res) => {
-  res.render("home");
+router.get('/', (req, res) => {
+  res.render("home", {isHome: true});
 });
 
 router
@@ -55,18 +55,35 @@ router
     }
   });
 
-router.get("/dashboard", sessionChecker('dashboard'), async (req, res) => {
-  res.render("dashboard", { orders: await Order.getAllOrders() });
+
+
+router.get("/dashboard", async (req, res) => {
+  try {
+    const category = await Category.find().populate('skills');
+    res.render("dashboard", {
+      category,
+      firstCat: '',
+      orders: await Order.getAllOrders()
+    });
+  } catch (error) {
+    next(error);
+  }
 });
+
 router.get("/services", async (req, res) => {
-  //getUsersWithSkill()
   const category = await Category.find().populate('skills');
-  res.render("services", {
-    category,
-    firstCat: category[0],
-    users: await User.getAllUsers()
-  });
+  try {
+    res.render("services", {
+      category,
+      firstCat: '',
+      users: await User.getAllUsers()
+    });
+  } catch (error) {
+    next(error);
+  }
 });
+
+
 
 router.get("/logout", async (req, res, next) => {
   if (req.session.user) {

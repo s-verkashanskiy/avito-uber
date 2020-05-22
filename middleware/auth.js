@@ -14,9 +14,14 @@ const sessionChecker = (hbsFile) => {
 
   return async function(req, res, next) {
 		if (req.session.user) {
-			res.render(hbsFile, { isAuth: true, orders: await Order.getAllOrders() } );
+      // res.render(hbsFile, { isAuth: true, orders: await Order.getAllOrders() });
+      next(req.isAuth = true);
+      console.log('111111111111111111111111', req.isAuth);
+      
 		} else {
-			next();
+      next(req.isAuth = false);
+      console.log('0000000000000000000000000000', req.isAuth);
+      
 		}
 	};
 };

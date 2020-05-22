@@ -1,0 +1,32 @@
+<nav class="navbar navbar-default">
+    <div class="container-fluid">
+        <!-- Collect the nav links, forms, and other content for toggling -->
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
+            <ul class="nav navbar-nav">
+                {{#if isHome }}{{else}}
+                  <li><a href="/">Home</a></li>
+                {{/if}}  
+                {{#if isAuth }}{{else}}
+                  <li><a href="/signup">Sign Up</a></li>
+                {{/if}}
+                <li><a href="/dashboard">Заказы</a></li>
+                <li> <a href="/services">Услуги</a></li>
+            </ul>
+
+            <ul class="nav navbar-nav navbar-right">
+                {{#if isAuth}}
+                  {{#if isExecutor}}
+                    <li><a href="/executor">Профиль</a></li>
+                  {{else}}
+                    <li><a href="/customer">Профиль</a></li>
+                  {{/if}}
+                {{else}}
+                  <li><a href="/login">Log In</a></li>
+                {{/if}}
+                {{#if isAuth }}
+                  <li><a href="/logout">Log Out</a></li>
+                {{/if}}
+            </ul>
+        </div><!-- /.navbar-collapse -->
+    </div><!-- /.container-fluid -->
+</nav>

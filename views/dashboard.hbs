@@ -1,28 +1,30 @@
+<script defer src="/js/executor.js"></script>
 <div class="page-header">
     <h1>Заказы</h1>
 </div>
 
-<nav class="navbar navbar-default">
-    <div class="container-fluid">
-        <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
-                <li><a href="/">Home</a></li>
-                {{#unless isAuth }}
-                  <li><a href="/signup">Sign Up</a></li>
-                {{/unless}}
-                <li><a href="/services">Услуги</a></li>
-            </ul>
+<div>Фильтр заказов:</div>
 
-            <ul class="nav navbar-nav navbar-right">
-                {{#unless isAuth}}
-                  <li><a href="/login">Log In</a></li>
-                {{/unless}}
-                <li><a href="/logout">Log Out</a></li>
-            </ul>
-        </div><!-- /.navbar-collapse -->
-    </div><!-- /.container-fluid -->
-</nav>
+<select id="selectCategory">
+    {{#each category}}
+    <option value={{_id}}>
+      {{title}}
+    </option>
+    {{/each}}
+  </select>
+
+  <select id="selectSkill">
+    {{#each firstCat.skills}}
+    <option value={{_id}}>
+      {{title}}
+    </option>
+    {{/each}}
+  </select>
+  <button id="chooseSkill">Применить</button>
+<br />
+<br />
+
+
 
 <div class="container row">
 

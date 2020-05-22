@@ -11,7 +11,7 @@ async function render(templateName, data) {
 document.body.addEventListener('click', async (event) => {
   if (event.target.className === 'deleteSkill'){
     event.preventDefault();
-    console.log(event.target.parentNode.id);
+    // console.log(event.target.parentNode.id);
     
     const result = await (
       await fetch(`/executor`, {
@@ -29,6 +29,7 @@ document.body.addEventListener('click', async (event) => {
 
   if (event.target.id === 'addSkill'){
     event.preventDefault();
+
     const select = document.getElementById('selectSkill');
     const result = await (
       await fetch(`/executor`, {
@@ -42,19 +43,17 @@ document.body.addEventListener('click', async (event) => {
       })
     ).json();
     if (result.status === 200){
-  document.getElementById('skills').innerHTML += await render('addSkill', {skill: result.skill});
+      document.getElementById('skills').innerHTML += await render('addSkill', {skill: result.skill});
     }
-
-
-    console.log(result);
-    
+    console.log(result);   
   }
 
 })
 
-document.getElementById('selectCategory').addEventListener('change',async (event) => {
-  const result = await (
-    await fetch(`/executor/skills/${event.target.value}`,)
-  ).json();
-document.getElementById('selectSkill').innerHTML = await render('skillsSelect', { skills: result.skills });
+
+
+
+document.getElementById('selectCategory').addEventListener('change', async (event) => {
+  const result = await (await fetch(`/executor/skills/${event.target.value}`)).json();
+  document.getElementById('selectSkill').innerHTML = await render('skillsSelect', { skills: result.skills });
 })

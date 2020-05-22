@@ -7,6 +7,7 @@ module.exports = function(app) {
   const FileStore = require("session-file-store")(session);
   const { cookiesCleaner } = require("./auth");
   const dbConnection = require("./db-connect");
+  const hbs = require('hbs');
 
   app.use(morgan("dev"));
 
@@ -30,7 +31,16 @@ module.exports = function(app) {
       }
     })
   );
-
+  app.use((req, res, next) => {
+    res.locals.isAuth = !!req.session.user;
+    console.log(res.locals.isAuth); // !!если true/false
+    if (req.session.user) {
+      res.locals.name = req.session.user.username;
+      res.locals.isExecutor = req.session.user.isExecutor;
+    }
+    next();
+  });
+    
   app.use(cookiesCleaner);
 
   // Подключаем статику
@@ -38,5 +48,9 @@ module.exports = function(app) {
 
   // Подключаем views(hbs)
   app.set("views", path.join(__dirname, '..', "views"));
+  hbs.registerPartials(path.join(__dirname, '..', "views", 'partials'));
   app.set("view engine", "hbs");
+
 };
+
+

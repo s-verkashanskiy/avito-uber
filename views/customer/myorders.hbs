@@ -1,5 +1,8 @@
 <div
+
+  
   style="height: 500px;width: 900px; border: solid black 2px; display: flex; flex-direction: column; flex-wrap: wrap; font-size: 15px; ">
+  <h3 style="text-align: center;">Мои заказы</h3>
   {{#each orders}}
   <div >
     <div>Тема: <br>{{title}}</div>
@@ -11,5 +14,5 @@
   </div>
   <br>
   {{/each}}
-
+<a style="text-align: center"   href="http://localhost:3000/customer/neworder">Создать новый заказ</a>
 </div>

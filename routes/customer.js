@@ -26,7 +26,7 @@ router.post("/profile", async (req, res) => {
   customer.story = req.body.story;
   await customer.save();
   console.log(customer)
-  res.redirect("/customer/profile");
+  res.redirect("/customer/myOrders");
 });
 
 // Зарузка фотки
@@ -89,7 +89,7 @@ router.get('/myOrders/:id/edit', async function (req, res, next) {
   const category = await Category.find().populate('skills');
   const firstCat = category[1];
   let order = await Order.findById(req.params.id);
-  res.render('customer/editOrder', {firstCat, order});
+  res.render('customer/editOrder', {firstCat, order, category});
 });
 
 router.post('/myOrders/:id/edit', async function (req, res, next) {
@@ -98,7 +98,7 @@ router.post('/myOrders/:id/edit', async function (req, res, next) {
   order.title  = req.body.title 
   order.description = req.body.description
   order.price = req.body.price
-  // order.categories = req.body.tags 
+  order.categories = req.body.tags 
   await order.save()
   console.log(order)
   res.redirect('/customer/myOrders')

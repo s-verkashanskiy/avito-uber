@@ -39,7 +39,7 @@ document.getElementById('selectCategory').addEventListener('change',async (event
   const result = await (
     await fetch(`/customer/skills/${event.target.value}`,)
   ).json();
-  console.log(result);
+  // console.log(result);
 document.getElementById('selectSkill').innerHTML = await render('customerSelect', { skills: result.skills });
 
 })

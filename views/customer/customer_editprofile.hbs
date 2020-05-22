@@ -1,0 +1,32 @@
+  <div style="height: 300px; width: 300px; border: solid black 2px;">
+      <img style="height: 300px; width: 300px;" src={{this.avatar}} alt="eto {{this.username}}">
+  </div>
+  <form id="uploadForm" enctype="multipart/form-data" action="/executor/avatar" method="post">
+  <input type="file" name="userFile" required>
+  <input type="submit" value="загрузить" name="submit">
+</form>  
+
+
+<form method='post' action="/customer/profile">
+<h4>Имя</h4>
+<input type='text' name='name' value={{this.username}}>
+<h4>Город</h4>
+<input type='text' name='city' value={{this.city}}>
+<h4>Телефон</h4>
+<input type='tel' name='phone' value="{{this.phone}}" placeholder="123-456-7890" pattern="[0-9]{3}-[0-9]{3}-[0-9]{4}">
+<h4>О себе</h4>
+<textarea name='story'> {{this.story}}</textarea>
+<button type='submit'>Enter</button>
+</form>
+
+<p>{{message}}</p>
+
+
+
+<a href="http://localhost:3000/customer/neworder">Создать новый заказ</a>
+<a href="http://localhost:3000/customer/myorders">Show my orders</a>
+
+{{!-- <form method="POST" action="/customer/profile/upload" enctype = "multipart/form-data" >
+  <input type="file" name="file">
+  <input type="submit" value="Upload!">
+</form> --}}

@@ -93,7 +93,8 @@ router.post('/avatar',async (req, res) => {
     const user = await User.findById(req.session.user._id);
     user.avatar = `/avatar${imgType}`;
     user.save();
-    res.redirect('/executor/editProfile');
+    if(user.isExecutor) res.redirect('/executor/editProfile')
+    res.redirect('/customer/profile')
   });
 
 });

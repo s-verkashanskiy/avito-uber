@@ -1,31 +1,32 @@
 
-<form method='post' action="/customer/profile">
-<h4>Имя</h4>
-<input type='text' name='name' value={{this.username}}>
-<h4>Город</h4>
-<input type='text' name='city' value={{this.city}}>
-<h4>Телефон</h4>
-<input type='text' name='phone' value="{{this.phone}}" placeholder="900-000-0000">
-<h4>О себе</h4>
-<textarea name='story'> {{this.story}}</textarea>
-<button type='submit'>Enter</button>
-</form>
+<div class="main">
+  <div>
+    <div style="height: 300px; width: 300px; border: solid black 2px;">
+      <img style="height: 300px; width: 300px;" src={{customer.avatar}} alt="eto {{customer.username}}">
+    </div>
 
-<p>{{message}}</p>
+    <h1>{{customer.username}}</h1>
+    <span>{{customer.city}}</span><br>
+    {{#if isExecutor}}
+    {{else}}
+    <span>{{customer.email}}</span>
+    {{/if}}
+    <p>{{customer.story}}</p>
+    <br>
+    {{#if isExecutor}}
+    {{else}}
+    <a href="/customer/editProfile">редактировать профиль</a>
+    {{/if}}
+    <br>
+    <br>
+    <br>
+  </div>
 
-<form 
-      id='uploadForm' 
-      enctype = "multipart/form-data" 
-      action='/customer/profile/upload' 
-      method='post' >
-        <input type="file" name="sampleFile" />
-        <input type='submit' value='Upload!' />
-    </form>    
+  <div>
 
-<a href="http://localhost:3000/customer/neworder">Создать новый заказ</a>
-<a href="http://localhost:3000/customer/myorders">Show my orders</a>
+    <div class="category">
+    </div>
 
-{{!-- <form method="POST" action="/customer/profile/upload" enctype = "multipart/form-data" >
-  <input type="file" name="file">
-  <input type="submit" value="Upload!">
-</form> --}}
+  </div>
+
+</div>

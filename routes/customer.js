@@ -12,10 +12,16 @@ const fileUpload = require("express-fileupload");
 router.use(fileUpload({ 
 }));
 // Редактирование профиля
-router.get(['/', "/profile"], async (req, res) => {
+
+router.get('/', async (req, res) => {
+  let customer = await User.findOne({email: req.session.user.email});
+  res.render('customer/customer_profile', {customer})
+})
+
+router.get("/editprofile", async (req, res) => {
 
   let customer = await User.findOne({email: req.session.user.email})
-  res.render("customer/customer_profile", customer);
+  res.render("customer/customer_editprofile", customer);
 });
 
 router.post("/profile", async (req, res) => {
@@ -117,7 +123,11 @@ router.get('/myOrders/:id/delete', async function (req, res, next) {
   res.redirect('/customer/myOrders');
 });
 
-
+router.get('/executer/:id', async (req, res) => {
+  let executor = await User.findById(req.params.id).populate('skills')
+  console.log(executor)
+  res.render('executor/executor', {executor})
+})
 
 
 module.exports = router;

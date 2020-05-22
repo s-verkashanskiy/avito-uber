@@ -7,24 +7,29 @@
 
     <h1>{{executor.username}}</h1>
     <span>{{executor.city}}</span><br>
+    {{#if isExecutor}}
     <span>{{executor.email}}</span>
+    {{/if}}
     <p>{{executor.story}}</p>
     {{#each executor.skills}}
     <span>{{title}}, </span>
     {{/each}}
     <br>
+    {{#if isExecutor}}
     <a href="/executor/editProfile">редактировать профиль</a>
+    {{/if}}
     <br>
     <br>
     <br>
+    {{#if isExecutor}}
     <a href="/executor/orders">Заказы</a>
     <a href="/executor/orders">Отклики</a>
+    {{/if}}
   </div>
 
   <div>
 
     <div class="category">
-      ваыаыаыва
     </div>
 
   </div>

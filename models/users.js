@@ -101,10 +101,10 @@ userSchema.static("getAllUsers", async function () {
 })
 
 
-userSchema.static("getUsersWithSkill", async function (skillName) {
+userSchema.static("getUsersWithCategory", async function (categoryNameId) {
   const users = await this.find().populate('skills');
   const result = users.filter( user => user.isExecutor === true &&
-    user.skills.some(skill => skill.title === skillName))
+    user.skills.some((skill) => skill.category == categoryNameId))
     .map(user => {
       return {
         username: user.username,
@@ -118,7 +118,24 @@ userSchema.static("getUsersWithSkill", async function (skillName) {
 
   return result;
 })
+userSchema.static("getUsersWithSkill", async function (skillNameId) {
+  const users = await this.find().populate('skills');
+  const result = users.filter( user => user.isExecutor === true &&
+    user.skills.some(skill => skill._id == skillNameId))
+    .map(user => {
+      return {
+        username: user.username,
+        registrationDate: user.registrationDate,
+        city: user.city,
+        story: user.story,
+        skills: user.skills.map(skill => skill.title)
+      }
+    });
+
+  return result;
+})
     
+        
     
     
 const User = model('User', userSchema);

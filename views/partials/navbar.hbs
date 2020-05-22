@@ -9,8 +9,11 @@
                 {{#if isAuth }}{{else}}
                   <li><a href="/signup">Sign Up</a></li>
                 {{/if}}
-                <li><a href="/dashboard">Заказы</a></li>
-                <li> <a href="/services">Услуги</a></li>
+                {{#if isExecutor }}
+                  <li><a href="/dashboard">Заказы</a></li>
+                {{else}}
+                  <li> <a href="/services">Услуги</a></li>
+                {{/if}}
             </ul>
 
             <ul class="nav navbar-nav navbar-right">

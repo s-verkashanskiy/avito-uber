@@ -98,13 +98,11 @@ orderSchema.static("getAllOrders", async function () {
   return result;
 });
 
-orderSchema.static("getOrdersWithCategory", async function (categoryName) {
+orderSchema.static("getOrdersWithCategory", async function (categoryNameId) {
   const orders = await this.find().populate("categories");
   const result = orders
-    .filter((order) =>
-      order.categories.some((category) => category.title === categoryName)
-    )
-    .map((order) => {
+    .filter( order => order.categories.some( category => category._id == categoryNameId))
+    .map( order => {
       return {
         title: order.title,
         description: order.description,
@@ -115,11 +113,11 @@ orderSchema.static("getOrdersWithCategory", async function (categoryName) {
   return result;
 });
 
-orderSchema.static("getOrdersWithSkill", async function (skillName) {
-  const orders = await this.find().populate("skills");
+orderSchema.static("getOrdersWithSkill", async function (skillNameId) {
+  const orders = await this.find().populate('skills');
   const result = orders
-    .filter((order) => order.skills.some((skill) => skill.title === skillName))
-    .map((order) => {
+    .filter( order => order.skills.some( skill => skill._id == skillNameId))
+    .map( order => {
       return {
         title: order.title,
         description: order.description,

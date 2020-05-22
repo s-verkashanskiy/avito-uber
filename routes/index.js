@@ -13,7 +13,7 @@ router.get('/', (req, res) => {
 
 router
   .route("/signup")
-  .get(sessionChecker('home'), (req, res) => {
+  .get((req, res) => {
     res.render("signup");
   })
   .post(async (req, res, next) => {
@@ -38,7 +38,7 @@ router
 
 router
   .route("/login")
-  .get(sessionChecker('home'), (req, res) => {
+  .get((req, res) => {
     res.render("login");
   })
   .post(async (req, res) => {
@@ -57,18 +57,40 @@ router
 
 
 
-router.get("/dashboard", async (req, res) => {
+router.get("/dashboard", sessionChecker(), async (req, res) => {
+  
+  if (req.session.user.isExecutor) {
+    try {
+      const category = await Category.find().populate('skills');
+      res.render("dashboard", {
+        category,
+        firstCat: '',
+        orders: await Order.getAllOrders()
+      });
+    } catch (error) {
+      next(error);
+    }
+  }
+});
+router.post("/dashboard/filter", async (req, res) => {
+  const category = await Category.find().populate('skills');
+  let orders;
+  if (req.body.skill) {
+    orders = await Order.getOrdersWithSkill(req.body.skill);
+  } else {
+    orders = await Order.getOrdersWithCategory(req.body.category);
+  }
   try {
-    const category = await Category.find().populate('skills');
     res.render("dashboard", {
       category,
       firstCat: '',
-      orders: await Order.getAllOrders()
+      orders
     });
   } catch (error) {
     next(error);
   }
 });
+
 
 router.get("/services", async (req, res) => {
   const category = await Category.find().populate('skills');
@@ -77,6 +99,24 @@ router.get("/services", async (req, res) => {
       category,
       firstCat: '',
       users: await User.getAllUsers()
+    });
+  } catch (error) {
+    next(error);
+  }
+});
+router.post("/services/filter", async (req, res) => {
+  const category = await Category.find().populate('skills');
+  let users;
+  if (req.body.skill) {
+    users = await User.getUsersWithSkill(req.body.skill);
+  } else {
+    users = await User.getUsersWithCategory(req.body.category);
+  }
+  try {
+    res.render("services", {
+      category,
+      firstCat: '',
+      users
     });
   } catch (error) {
     next(error);

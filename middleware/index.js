@@ -34,7 +34,6 @@ module.exports = function(app) {
   );
   app.use((req, res, next) => {
     res.locals.isAuth = !!req.session.user;
-    console.log(res.locals.isAuth); // !!если true/false
     if (req.session.user) {
       res.locals.name = req.session.user.username;
       res.locals.isExecutor = req.session.user.isExecutor;

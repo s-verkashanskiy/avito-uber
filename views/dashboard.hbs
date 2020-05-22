@@ -4,8 +4,9 @@
 </div>
 
 <div>Фильтр заказов:</div>
-
-<select id="selectCategory">
+<form method="POST", action="/dashboard/filter">
+  <select id="selectCategory" name="category">
+    <option></option>
     {{#each category}}
     <option value={{_id}}>
       {{title}}
@@ -13,7 +14,8 @@
     {{/each}}
   </select>
 
-  <select id="selectSkill">
+  <select id="selectSkill" name="skill">
+    <option></option>
     {{#each firstCat.skills}}
     <option value={{_id}}>
       {{title}}
@@ -21,6 +23,7 @@
     {{/each}}
   </select>
   <button id="chooseSkill">Применить</button>
+</form>
 <br />
 <br />
 
@@ -33,7 +36,11 @@
         <li><b>Тема заказа: </b>{{this.title}}</li>
         <li><b>Описание заказа: </b>{{this.description}}</li>
         <li><b>Выполнить до: </b>{{this.expirationDate}}</li>
-        {{#if ../isExecutor}}<button id="doResponse">Откликнуться</button>{{/if}}
+        {{#if ../isAuth}}
+          <button id="doResponse">Откликнуться</button>
+        {{else}}
+          <a href="/login"><button>Откликнуться</button></a>
+        {{/if}}
         <br/>
       </ul>
     {{/each}}

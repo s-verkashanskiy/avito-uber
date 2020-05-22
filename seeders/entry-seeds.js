@@ -516,13 +516,13 @@ orders.push(new Order ({
 
 
 
-// Skill.insertMany(skills)
-// .then(() => User.insertMany(users))
-// .then(() => Category.insertMany(categories))
-// .then(() => Order.insertMany(orders))
-// .then(() => Price.insertMany(prices))
-// .then(() => mongoose.connection.close())
-// .catch( error => console.log(error));
+Skill.insertMany(skills)
+.then(() => User.insertMany(users))
+.then(() => Category.insertMany(categories))
+.then(() => Order.insertMany(orders))
+.then(() => Price.insertMany(prices))
+.then(() => mongoose.connection.close())
+.catch( error => console.log(error));
 
 // 'чтение бодиграфа'
 // User.getUsersWithSkill('чтение бодиграфа');

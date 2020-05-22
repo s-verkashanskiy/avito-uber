@@ -5,7 +5,9 @@
 </div>
 
 <div>Фильтр специалистов:</div>
-<select id="selectCategory">
+<form method="POST", action="/services/filter">
+  <select id="selectCategory" name="category">
+    <option></option>
     {{#each category}}
     <option value={{_id}}>
       {{title}}
@@ -13,7 +15,8 @@
     {{/each}}
   </select>
 
-  <select id="selectSkill">
+  <select id="selectSkill" name="skill">
+    <option></option>
     {{#each firstCat.skills}}
     <option value={{_id}}>
       {{title}}
@@ -21,6 +24,7 @@
     {{/each}}
   </select>
   <button id="chooseSkill">Применить</button>
+</form>
 <br />
 <br />
 
@@ -31,6 +35,11 @@
         <li><b>Имя специалиста: </b>{{this.username}}</li>
         <li><b>Местоположение: </b>{{this.city}}</li>
         <li><b>Скиллы: </b>{{this.skills}}</li>
+        {{#if ../isAuth}}
+          <button id="doResponse">Выбрать специалиста</button>
+        {{else}}
+          <a href="/login"><button>Выбрать специалиста</button></a>
+        {{/if}}
         <br/>
       </ul>
     {{/each}}

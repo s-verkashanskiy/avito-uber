@@ -90,10 +90,8 @@ router.get('/skills/:id', async (req, res) => {
 
 router.get("/myOrders", async (req, res) => {
   let customer = await User.findOne({email: req.session.user.email})
-  const orders = await Order.find({customer: customer}).populate('responses');
-  
+  const orders = await Order.find({customer: customer}).populate('skills').populate('categories').populate('responses')
   console.log(orders)
-  // populate('skills').populate('categories').
   // const skills = await Order.find({skills: orders.skills}).populate('skills')
   res.render('customer/myorders', {orders})
 });

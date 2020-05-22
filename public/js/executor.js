@@ -13,7 +13,7 @@ document.body.addEventListener('click', async (event) => {
     event.preventDefault();
     // console.log(event.target.parentNode.id);
     
-    const result = await (
+    const resultDelete = await (
       await fetch(`/executor`, {
         method: "delete",
         headers: {
@@ -31,8 +31,10 @@ document.body.addEventListener('click', async (event) => {
     event.preventDefault();
 
     const select = document.getElementById('selectSkill');
-    const result = await (
-      await fetch(`/customer`, {
+    console.log(select.value);
+    
+    const resultAdd = await (
+      await fetch(`/executor`, {
         method: "PUT",
         headers: {
           "Content-Type": "application/json",
@@ -42,18 +44,20 @@ document.body.addEventListener('click', async (event) => {
         }),
       })
     ).json();
-    if (result.status === 200){
-      document.getElementById('skills').innerHTML += await render('addSkill', {skill: result.skill});
+      console.log();
+      
+    if (resultAdd.status === 200){
+      document.getElementById('skills').innerHTML += await render('addSkill', {skill: resultAdd.skill});
     }
   }
 
   if (event.target.id === 'doResponse'){
     const id = event.target.parentNode.id;    
-    const result = await (
+    const resultDoResp = await (
       await fetch(`/executor/doResponse/${id}`)
     ).json();
   }
-  if (result.status === 200){
+  if (resultDoResp.status === 200){
     event.target.parentNode.innerHTML += '<p>Отклик отправлен!<p>'
   } else {
     event.target.parentNode.innerHTML += '<p>Уже откликнулся!<p>'

@@ -1,6 +1,7 @@
 const { Schema, model } = require("mongoose");
 const { ObjectId } = require("mongoose").Schema.Types;
 
+
 const userSchema = new Schema({
     username: {
       type: String,
@@ -50,9 +51,13 @@ const userSchema = new Schema({
       type: String,
     },
     skills:[{
-      type: Schema.Types.ObjectId,
+      type: ObjectId,
       ref: 'Skill'
     }],
+    avatar: {
+      type: String,
+      default: '/img/default_avatar.jpg'
+    },
     feedback: [{
       feedContent: {
         type: String,
@@ -79,77 +84,44 @@ const userSchema = new Schema({
     }]
 });
 
-const skillSchema = new Schema({
-  title: {
-    type: String,
-    unique: true,
-    required: [true, 'Не задано название навыка']
-  },
-  category: {
-    type: ObjectId,
-    ref: 'Category',
-  }
-});
 
-const orderSchema = new Schema({
-  title:{ 
-    type: String,
-    required: [true, 'Укажите тему заказа']
-  },
-  description: {
-    type: String,
-    required: [true, 'Укажите тему заказа']
-  },  price: {
-    type: Number
-  },
-  customer: {
-    type: ObjectId,
-    ref: 'User'
-  },
-  publicationDate: {
-    type: String,
-    default: new Date().toUTCString()
-  },
-  expirationDate: {
-    type: String,
-    // required: true
-  },
-  categories: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Category'
-  }]
-});
-
-const categorySchema = new Schema({
-  title: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  skills: [{
-    type: Schema.Types.ObjectId,
-    ref: 'Skill',
-    required: [true, 'Не указаны skills']
-  }]
+userSchema.static("getAllUsers", async function () {
+  const users = await this.find().populate('skills');
+  const result = users.filter( user => user.isExecutor === true )
+  .map(user => { 
+    return {
+    username: user.username,
+    registrationDate: user.registrationDate,
+    city: user.city,
+    story: user.story,
+    skills: user.skills.map(skill => skill.title)
+  }});
+  
+  return result;
 })
 
-const priceSchema = new Schema( [{
-  costRange: {
-    type: String,
-    unique: true,
-    required: true
-  },
-  currency: String
-}])
 
+userSchema.static("getUsersWithSkill", async function (skillName) {
+  const users = await this.find().populate('skills');
+  const result = users.filter( user => user.isExecutor === true &&
+    user.skills.some(skill => skill.title === skillName))
+    .map(user => {
+      return {
+        username: user.username,
+        registrationDate: user.registrationDate,
+        city: user.city,
+        story: user.story,
+        skills: user.skills.map(skill => skill.title)
+      }
+    });
+  console.log(result);
 
-
-
+  return result;
+})
+    
+    
+    
 const User = model('User', userSchema);
-const Skill = model('Skill', skillSchema);
-const Order = model('Order', orderSchema);
-const Category = model('Category', categorySchema);
-const Price = model('Price', priceSchema);
 
 
-module.exports = { User, Skill, Order, Category, Price };
+module.exports = { User };

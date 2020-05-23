@@ -25,19 +25,19 @@ router.get("/editprofile", async (req, res) => {
 
 router.post("/profile", async (req, res) => {
   let customer = await User.findOne({email: req.session.user.email})
-  console.log(req.body.story)
+  // console.log(req.body.story)
   customer.username = req.body.name;
   customer.city = req.body.city;
   customer.phone = req.body.phone
   customer.story = req.body.story;
   await customer.save();
-  console.log(customer)
+  // console.log(customer)
   res.redirect("/customer/myOrders");
 });
 
 // Зарузка фотки
 router.post('/profile/upload', function(req, res) {
-  console.log(req.files)
+  // console.log(req.files)
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
@@ -73,17 +73,18 @@ router.post("/neworder", async (req, res) => {
     
   // })
   // await price.save()
-
+  console.log(req.body.costRange)
   const order = await new Order({
     expirationDate: req.body.expirationDate,
     title: req.body.title,
     customer: customer,
     description: req.body.description,
     categories: req.body.category, 
-    skills: req.body.skill
+    skills: req.body.skill,
+    price: req.body.costRange
   })
   await order.save()
-  console.log(order)
+  // console.log(order)
   res.redirect("/customer/myOrders");
 });
 
@@ -91,7 +92,7 @@ router.post("/neworder", async (req, res) => {
 router.get("/myOrders", async (req, res) => {
   let customer = await User.findOne({email: req.session.user.email})
   const orders = await Order.find({customer: customer}).populate('skills').populate('categories').populate('responses')
-  console.log(orders)
+  // console.log(orders)
   // const skills = await Order.find({skills: orders.skills}).populate('skills')
   res.render('customer/myorders', {orders})
 });
@@ -105,14 +106,14 @@ router.get('/myOrders/:id/edit', async function (req, res, next) {
 
 router.post('/myOrders/:id/edit', async function (req, res, next) {
   let order = await Order.findById(req.params.id)
-  console.log(req.body)
+  // console.log(req.body)
   order.title  = req.body.title 
   order.description = req.body.description
-  // order.price = req.body.price
+  order.price = req.body.costRange
   // order.categories = req.body.tags 
   order.expirationDate = req.body.expirationDate
   await order.save()
-  console.log(order)
+  // console.log(order)
   res.redirect('/customer/myOrders')
 })
 
@@ -124,7 +125,7 @@ router.get('/myOrders/:id/delete', async function (req, res, next) {
 
 router.get('/executer/:id', async (req, res) => {
   let executor = await User.findById(req.params.id).populate('skills')
-  console.log(executor)
+  // console.log(executor)
   res.render('executor/executor', {executor})
 })
 

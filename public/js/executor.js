@@ -70,3 +70,8 @@ document.getElementById('selectCategory').addEventListener('change', async (even
   const result = await (await fetch(`/executor/skills/${event.target.value}`)).json();
   document.getElementById('selectSkill').innerHTML = await render('skillsSelect', { skills: result.skills });
 })
+
+// document.addEventListener('DOMContentLoaded', function() {
+//   const elems = document.querySelectorAll('select');
+//   const instances = M.FormSelect.init(elems, options);
+// });

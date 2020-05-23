@@ -1,9 +1,8 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
+const { Router } = require("express");
+const router = Router();
 const { sessionChecker } = require("../middleware/auth");
 const { User } = require("../models/users");
 const { Order, Category, Skill, Price } = require("../models/orders");
-const router = express.Router();
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
 

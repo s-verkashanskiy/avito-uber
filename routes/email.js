@@ -1,7 +1,8 @@
-const express = require("express");
-const router = express.Router();
+const { Router } = require("express");
+const router = Router();
 const nodemailer = require('nodemailer');
   
+
 const sendMail = async () => {
   let testEmailAccount = await nodemailer.createTestAccount();
   

@@ -1,11 +1,11 @@
-const express = require("express");
+const { Router } = require("express");
+const router = Router();
+const fs = require("fs");
+const fileUpload = require("express-fileupload");
 const { User } = require("../models/users");
 const { Order, Category, Skill, Price } = require("../models/orders");
 
-const router = express.Router();
 
-const fs = require("fs");
-const fileUpload = require("express-fileupload");
 
 router.use(fileUpload({ 
 }));
@@ -17,7 +17,7 @@ router.get("/", async (req, res) => {
 
 router.get("/orders", async (req, res) => {
   const orders = await Order.find();
-  res.render("dashboard", { orders, isExecutor: true});
+  res.render("orders", { orders, isExecutor: true});
 });
 router.get("/doResponse/:id", async (req, res) => {
   const userId = req.session.user._id;

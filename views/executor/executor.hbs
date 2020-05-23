@@ -1,17 +1,15 @@
 
 <div class="main">
   <div>
-    <div style="height: 300px; width: 300px; border: solid black 2px;">
-      <img style="height: 300px; width: 300px;" src={{executor.avatar}} alt="eto {{executor.username}}">
-    </div>
+  <div {{!-- style="min-height: 200px; min-width: 200px;" --}}>
+      <img src={{executor.avatar}} alt="eto {{executor.username}}">
+  </div>
 
     <h1>{{executor.username}}</h1>
     <span>{{executor.city}}</span><br>
     <span>{{executor.email}}</span>
     <p>{{executor.story}}</p>
-    {{#each executor.skills}}
-    <span>{{title}}, </span>
-    {{/each}}
+
     <br>
     <a href="/executor/editProfile">редактировать профиль</a>
     <br>
@@ -24,7 +22,9 @@
   <div>
 
     <div class="category">
-      ваыаыаыва
+    {{#each executor.skills}}
+    <span>{{title}}, </span>
+    {{/each}}
     </div>
 
   </div>

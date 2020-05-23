@@ -1,10 +1,11 @@
-<script defer src="/js/executor.js"></script>
+<div class="main">
+  
+<div>
 
-<div style="height: 300px; width: 300px; border: solid black 2px;">
-    <img style="height: 300px; width: 300px;" src={{executor.avatar}} alt="eto {{executor.username}}">
-</div>
-
-<form id="uploadForm" enctype="multipart/form-data" action="/executor/avatar" method="post">
+  <div {{!-- style="height: 320px; width: 320px;" --}}>
+      <img src={{executor.avatar}} alt="eto {{executor.username}}">
+  </div>
+  <form id="uploadForm" enctype="multipart/form-data" action="/executor/avatar" method="post">
   <input type="file" name="userFile" required>
   <input type="submit" value="загрузить" name="submit">
 </form>
@@ -15,8 +16,14 @@
   <span>Город: </span><input type="text" name="city" value="{{executor.city}}"><br>
   <span> О себе: </span><br>
   <textarea name="story" id="" cols="30" rows="10">{{executor.story}}</textarea><br>
+
+  <input name="editProfile" type="submit" value="ok">
+</form>
+</div>
+
+<div class="category">
   <span>Скилы: </span><br>
-  <div id="skills">
+  <div class="category" id="skills">
     {{#each executor.skills}}
     <span id="{{_id}}">{{title}} <a href="" class="deleteSkill">X</a>|</span>
     {{/each}}
@@ -37,10 +44,8 @@
     {{/each}}
   </select>
   <button id="addSkill">Добавить</button>
+  </div>
 
-  <br>
-  <br>
-  <br>
-  <br>
-  <input class="browser-default" name="editProfile" type="submit" value="ok">
-</form>
+</div>
+
+</div>

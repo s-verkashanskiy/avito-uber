@@ -1,8 +1,10 @@
 <script defer src="/js/executor.js"></script>
-  <div style="height: 300px; width: 300px; border: solid black 2px;">
-      <img style="height: 300px; width: 300px;" src={{executor.avatar}} alt="eto {{executor.username}}">
-  </div>
-  <form id="uploadForm" enctype="multipart/form-data" action="/executor/avatar" method="post">
+
+<div style="height: 300px; width: 300px; border: solid black 2px;">
+    <img style="height: 300px; width: 300px;" src={{executor.avatar}} alt="eto {{executor.username}}">
+</div>
+
+<form id="uploadForm" enctype="multipart/form-data" action="/executor/avatar" method="post">
   <input type="file" name="userFile" required>
   <input type="submit" value="загрузить" name="submit">
 </form>
@@ -19,7 +21,7 @@
     <span id="{{_id}}">{{title}} <a href="" class="deleteSkill">X</a>|</span>
     {{/each}}
   </div>
-  <select id="selectCategory">
+  <select id="selectCategory" class="browser-default" >
     {{#each category}}
     <option value={{_id}}>
       {{title}}
@@ -27,7 +29,7 @@
     {{/each}}
   </select>
 
-  <select id="selectSkill">
+  <select id="selectSkill" class="browser-default" >
     {{#each firstCat.skills}}
     <option value={{_id}}>
       {{title}}
@@ -40,5 +42,5 @@
   <br>
   <br>
   <br>
-  <input name="editProfile" type="submit" value="ok">
+  <input class="browser-default" name="editProfile" type="submit" value="ok">
 </form>

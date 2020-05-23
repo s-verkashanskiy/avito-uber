@@ -1,36 +1,37 @@
 const express = require("express");
+const path = require('path')
 const { User } = require("../models/users");
 const { Order, Category, Skill, Price } = require("../models/orders");
 
 const router = express.Router();
 
-const fs = require("fs");
+const fs = require("fs").promises
 const fileUpload = require("express-fileupload");
+const gm = require("gm").subClass({ imageMagick: true });
 
-router.use(fileUpload({ 
-}));
+router.use(fileUpload({}));
 
 router.get("/", async (req, res) => {
-  const executor = await User.findById(req.session.user._id).populate('skills');
+  const executor = await User.findById(req.session.user._id).populate("skills");
   res.render("executor/executor", { executor });
 });
 
 router.get("/orders", async (req, res) => {
   const orders = await Order.find();
-  res.render("dashboard", { orders, isExecutor: true});
+  res.render("dashboard", { orders, isExecutor: true });
 });
 router.get("/doResponse/:id", async (req, res) => {
   const userId = req.session.user._id;
-  const orderId = req.params.id
+  const orderId = req.params.id;
   const order = await Order.findById(orderId);
-  if (!order.responses.includes(userId)){
-   console.log('yyyyyyyyyyyyyyyyyyyyyyyyyyyy');
+  if (!order.responses.includes(userId)) {
+    console.log("yyyyyyyyyyyyyyyyyyyyyyyyyyyy");
     order.responses.push(userId);
     order.save();
-    res.json({status: 200})
+    res.json({ status: 200 });
   } else {
-   console.log('xxxxxxxxxxxxxxxxxxxxxxxxxxxxx');
-    res.json({status: 400})
+    console.log("xxxxxxxxxxxxxxxxxxxxxxxxxxxxx");
+    res.json({ status: 400 });
   }
 });
 
@@ -59,13 +60,13 @@ router.post("/", async (req, res) => {
 router.put("/", async (req, res) => {
   console.log(req.body.id);
   let executor = await User.findById(req.session.user._id);
-  if (!executor.skills.includes(req.body.id)){
+  if (!executor.skills.includes(req.body.id)) {
     executor.skills.push(req.body.id);
     executor.save();
     const skill = await Skill.findById(req.body.id);
     res.json({ status: 200, skill });
   } else {
-    res.json({status: 400})
+    res.json({ status: 400 });
   }
 });
 
@@ -78,25 +79,37 @@ router.delete("/", async (req, res) => {
   res.json({ status: 200 });
 });
 
-router.post('/avatar',async (req, res) => {
-  console.log(req.files.userFile.name)
+router.post("/avatar", async (req, res) => {
+  console.log(req.files.userFile.name);
   if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
+    return res.status(400).send("No files were uploaded.");
   }
-  let sampleFile = req.files.userFile;
-  let fileName = req.files.userFile.name;
-  const imgType = fileName.slice(fileName.lastIndexOf("."))
+  const sampleFile = req.files.userFile;
+  const fileName = req.files.userFile.name;
+  const userId = req.session.user._id;
+  const imgType = fileName.slice(fileName.lastIndexOf("."));
+  const directory = path.join (__dirname, `../uploads/${userId}`);
 
- sampleFile.mv(`./uploads/${req.session.user._id}/avatar${imgType}`,async (err) => {
-    if (err)
-      return res.status(500).send(err);
+  const files = await fs.readdir(directory);
+  for (const file of files) {
+    fs.unlink(path.join(directory, file), err => {
+      if (err) throw err;
+    });
+  }
+
+  sampleFile.mv(`${directory}/${fileName}`, async (err) => {
+    if (err) return res.status(500).send(err);
+    gm(`${directory}/${fileName}`)
+      .resize(300,300)
+      .write(`${directory}/avatar${imgType}`, function (err) {
+        if (!err) console.log("done");
+      });
+
     const user = await User.findById(req.session.user._id);
     user.avatar = `/avatar${imgType}`;
     user.save();
-    res.redirect('/executor/editProfile');
+    res.redirect("/executor/editProfile");
   });
-
 });
-
 
 module.exports = router;

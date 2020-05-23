@@ -89,6 +89,7 @@ orderSchema.static("getAllOrders", async function () {
   const orders = await this.find();
   const result = orders.map((order) => {
     return {
+      id: order._id,
       title: order.title,
       description: order.description,
       expirationDate: order.expirationDate,
@@ -104,6 +105,7 @@ orderSchema.static("getOrdersWithCategory", async function (categoryNameId) {
     .filter( order => order.categories.some( category => category._id == categoryNameId))
     .map( order => {
       return {
+        id: order._id,
         title: order.title,
         description: order.description,
         expirationDate: order.expirationDate,
@@ -119,6 +121,7 @@ orderSchema.static("getOrdersWithSkill", async function (skillNameId) {
     .filter( order => order.skills.some( skill => skill._id == skillNameId))
     .map( order => {
       return {
+        id: order._id,
         title: order.title,
         description: order.description,
         expirationDate: order.expirationDate,

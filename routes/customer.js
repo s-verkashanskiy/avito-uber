@@ -1,9 +1,8 @@
-const express = require("express");
-const bcrypt = require("bcrypt");
+const { Router } = require("express");
+const router = Router();
 const { sessionChecker } = require("../middleware/auth");
 const { User } = require("../models/users");
 const { Order, Category, Skill, Price } = require("../models/orders");
-const router = express.Router();
 const fs = require("fs");
 const fileUpload = require("express-fileupload");
 
@@ -42,9 +41,9 @@ router.post('/profile/upload', function(req, res) {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send('No files were uploaded.');
   }
-
+  
   // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  let sampleFile = req.files.sampleFile;
+  let sampleFile = req.files.userFile;
   let fileName = sampleFile.name;
 
   // Use the mv() method to place the file somewhere on your server

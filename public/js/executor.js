@@ -4,7 +4,6 @@ async function render(templateName, data) {
     const str = await (await fetch(`/templates/${templateName}.hbs`)).text();
     Templates[templateName] = Handlebars.compile(str);
   }
-
   return Templates[templateName](data);
 }
 
@@ -52,15 +51,19 @@ document.body.addEventListener('click', async (event) => {
   }
 
   if (event.target.id === 'doResponse'){
-    const id = event.target.parentNode.id;    
+    const id = event.target.parentNode.id;   
+    console.log('>>>>>>>>>>>>>>>>>>>>>>>>',event.target.parentNode);
+    
     const resultDoResp = await (
       await fetch(`/executor/doResponse/${id}`)
     ).json();
-  }
-  if (resultDoResp.status === 200){
-    event.target.parentNode.innerHTML += '<p>Отклик отправлен!<p>'
-  } else {
-    event.target.parentNode.innerHTML += '<p>Уже откликнулся!<p>'
+    if (resultDoResp.status === 200){
+      console.log(resultDoResp);
+      
+      event.target.parentNode.innerHTML += '<p>Отклик отправлен!</p>'
+    } else {
+      event.target.parentNode.innerHTML += '<p>Уже откликнулся!</p>'
+    }
   }
 
 })
@@ -70,3 +73,8 @@ document.getElementById('selectCategory').addEventListener('change', async (even
   const result = await (await fetch(`/executor/skills/${event.target.value}`)).json();
   document.getElementById('selectSkill').innerHTML = await render('skillsSelect', { skills: result.skills });
 })
+
+// document.addEventListener('DOMContentLoaded', function() {
+//   const elems = document.querySelectorAll('select');
+//   const instances = M.FormSelect.init(elems, options);
+// });

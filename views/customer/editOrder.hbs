@@ -12,7 +12,7 @@
 {{#each order.skills}}
 {{!-- <span id="{{_id}}">{{title}} <a href="" class="deleteSkill">X</a>|</span> --}}
 {{/each}} <br>
-<select id="selectCategory">
+<select id="selectCategory" class="browser-default" >
   {{#each category}}
   <option value={{_id}}>
     {{title}}
@@ -20,7 +20,7 @@
   {{/each}}
 </select>
 
-<select id="selectSkill">
+<select id="selectSkill" class="browser-default">
   {{#each firstCat.skills}}
   <option value={{_id}}>
     {{title}}

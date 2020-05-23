@@ -58,7 +58,9 @@ module.exports = function(app) {
           fs.mkdirSync(`uploads/${user._id}/`);
         }
         // express.static(path.join(__dirname, `uploads/${user._id}`))(req, res, next);
-        express.static(`./uploads/${user._id}/`)(req, res, next);
+        // express.static(`./uploads/${user._id}/`)(req, res, next);
+        express.static(path.join(__dirname, '..', "uploads", `${user._id}`))(req, res, next);
+
       }else{
         next()
       }

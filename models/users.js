@@ -114,8 +114,7 @@ userSchema.static("getUsersWithCategory", async function (categoryNameId) {
         skills: user.skills.map(skill => skill.title)
       }
     });
-  console.log(result);
-
+ 
   return result;
 })
 userSchema.static("getUsersWithSkill", async function (skillNameId) {

@@ -1,22 +1,25 @@
-<nav class="navbar navbar-default">
+<nav>
+  <div class="nav-wrapper">
+    <ul id="nav-mobile">
+{{!-- <nav class="navbar navbar-default">
     <div class="container-fluid">
         <!-- Collect the nav links, forms, and other content for toggling -->
-        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1">
-            <ul class="nav navbar-nav">
+        <div class="collapse navbar-collapse" id="bs-example-navbar-collapse-1"> --}}
+            <ul class="left hide-on-med-and-down">
                 {{#if isHome }}{{else}}
-                  <li><a href="/">Home</a></li>
+                  <li><a href="/">Главная</a></li>
                 {{/if}}  
                 {{#if isAuth }}{{else}}
-                  <li><a href="/signup">Sign Up</a></li>
+                  <li><a href="/signup">Регистрация</a></li>
                 {{/if}}
                 {{#if isExecutor }}
-                  <li><a href="/dashboard">Заказы</a></li>
+                  <li><a href="/orders">Заказы</a></li>
                 {{else}}
                   <li> <a href="/services">Услуги</a></li>
                 {{/if}}
             </ul>
 
-            <ul class="nav navbar-nav navbar-right">
+            <ul class="right hide-on-med-and-down">
                 {{#if isAuth}}
                   {{#if isExecutor}}
                     <li><a href="/executor">Профиль</a></li>
@@ -24,12 +27,15 @@
                     <li><a href="/customer">Профиль</a></li>
                   {{/if}}
                 {{else}}
-                  <li><a href="/login">Log In</a></li>
+                  <li><a href="/login">Вход</a></li>
                 {{/if}}
                 {{#if isAuth }}
-                  <li><a href="/logout">Log Out</a></li>
+                  <li><a href="/logout">Выйти</a></li>
                 {{/if}}
             </ul>
-        </div><!-- /.navbar-collapse -->
+        {{!-- </div><!-- /.navbar-collapse -->
     </div><!-- /.container-fluid -->
+</nav> --}}
+    </ul>
+  </div>
 </nav>

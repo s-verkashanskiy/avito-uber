@@ -4,7 +4,6 @@ const fileUpload = require("express-fileupload");
 const express = require("express");
 const path = require('path')
 const fs = require("fs").promises
-const fileUpload = require("express-fileupload");
 const gm = require("gm").subClass({ imageMagick: true });
 const { User } = require("../models/users");
 const { Order, Category, Skill, Price } = require("../models/orders");

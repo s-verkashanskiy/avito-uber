@@ -1,6 +1,6 @@
 
-  <div style="height: 300px; width: 300px; border: solid black 2px;">
-      <img style="height: 300px; width: 300px;" src={{executor.avatar}} alt="eto {{executor.username}}">
+  <div style="min-height: 250px; min-width: 250px;">
+      <img src={{executor.avatar}} alt="eto {{executor.username}}">
   </div>
   <form id="uploadForm" enctype="multipart/form-data" action="/executor/avatar" method="post">
   <input type="file" name="userFile" required>

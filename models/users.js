@@ -54,9 +54,13 @@ const userSchema = new Schema({
       type: ObjectId,
       ref: 'Skill'
     }],
+    categoryes:[{
+      type: ObjectId,
+      ref: 'Category'
+    }],
     avatar: {
       type: String,
-      default: '/img/default_avatar.jpg'
+      default: '/img/avatar/default_avatar.jpg'
     },
     feedback: [{
       feedContent: {

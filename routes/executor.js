@@ -3,6 +3,7 @@ const router = Router();
 const express = require("express");
 const path = require('path')
 const fs = require("fs").promises
+const fileUpload = require("express-fileupload");
 const gm = require("gm").subClass({ imageMagick: true });
 const { User } = require("../models/users");
 const { Order, Category, Skill, Price } = require("../models/orders");
@@ -101,7 +102,7 @@ router.post("/avatar", async (req, res) => {
   sampleFile.mv(`${directory}/avatar${imgType}`, async (err) => {
     if (err) return res.status(500).send(err);
     gm(`${directory}/avatar${imgType}`)
-      .resize(300,300)
+      .resize(200, 200)
       .write(`${directory}/avatar${imgType}`, function (err) {
         if (!err) console.log("done");
       });

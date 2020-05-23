@@ -1,6 +1,5 @@
 const { Router } = require("express");
 const router = Router();
-const fileUpload = require("express-fileupload");
 const express = require("express");
 const path = require('path')
 const fs = require("fs").promises
@@ -85,11 +84,12 @@ router.post("/avatar", async (req, res) => {
   if (!req.files || Object.keys(req.files).length === 0) {
     return res.status(400).send("No files were uploaded.");
   }
+  
   const sampleFile = req.files.userFile;
   const fileName = req.files.userFile.name;
   const userId = req.session.user._id;
   const imgType = fileName.slice(fileName.lastIndexOf("."));
-  const directory = path.join (__dirname, `../uploads/${userId}`);
+  const directory = path.join (__dirname, `../public/img/avatar/${userId}`);
 
   const files = await fs.readdir(directory);
   for (const file of files) {
@@ -98,19 +98,20 @@ router.post("/avatar", async (req, res) => {
     });
   }
 
-  sampleFile.mv(`${directory}/${fileName}`, async (err) => {
+  sampleFile.mv(`${directory}/avatar${imgType}`, async (err) => {
     if (err) return res.status(500).send(err);
-    gm(`${directory}/${fileName}`)
+    gm(`${directory}/avatar${imgType}`)
       .resize(300,300)
       .write(`${directory}/avatar${imgType}`, function (err) {
         if (!err) console.log("done");
       });
 
     const user = await User.findById(req.session.user._id);
-    user.avatar = `/avatar${imgType}`;
+    user.avatar = `/img/avatar/${userId}/avatar${imgType}`;
     user.save();
     res.redirect("/executor/editProfile");
   });
+
 });
 
 module.exports = router;

@@ -1,4 +1,4 @@
-module.exports = function(app) {
+module.exports = function (app) {
   const express = require("express");
   const morgan = require("morgan");
   const cookieParser = require("cookie-parser");
@@ -7,8 +7,8 @@ module.exports = function(app) {
   const FileStore = require("session-file-store")(session);
   const { cookiesCleaner } = require("./auth");
   const dbConnection = require("./db-connect");
-  const hbs = require('hbs');
-  const fs = require('fs')
+  const hbs = require("hbs");
+  const fs = require("fs");
 
   app.use(morgan("dev"));
 
@@ -28,8 +28,8 @@ module.exports = function(app) {
       resave: false,
       saveUninitialized: false,
       cookie: {
-        expires: 6000000
-      }
+        expires: 6000000,
+      },
     })
   );
   app.use((req, res, next) => {
@@ -40,32 +40,28 @@ module.exports = function(app) {
     }
     next();
   });
-    
+
   app.use(cookiesCleaner);
 
   // Подключаем статику
-  app.use(express.static(path.join(__dirname, '..', "public")));
+  app.use(express.static(path.join(__dirname, "..", "public")));
 
   // Подключаем views(hbs)
-  app.set("views", path.join(__dirname, '..', "views"));
-  hbs.registerPartials(path.join(__dirname, '..', "views", 'partials'));
+  app.set("views", path.join(__dirname, "..", "views"));
+  hbs.registerPartials(path.join(__dirname, "..", "views", "partials"));
   app.set("view engine", "hbs");
-  
+
   app.use((req, res, next) => {
-    const user = req.session.user
-      if(user){
-        if (!fs.existsSync(`uploads/${user._id}/`)){
-          fs.mkdirSync(`uploads/${user._id}/`);
-        }
-        // express.static(path.join(__dirname, `uploads/${user._id}`))(req, res, next);
-        // express.static(`./uploads/${user._id}/`)(req, res, next);
-        express.static(path.join(__dirname, '..', "uploads", `${user._id}`))(req, res, next);
-
-      }else{
-        next()
+    const user = req.session.user;
+    const userPath = path.join(__dirname, "..", "public", "img", "avatar");
+    console.log(!fs.existsSync(`${userPath}/${user._id}/`));
+    if (user) {
+      if (!fs.existsSync(`${userPath}/${user._id}/`)) {
+        fs.mkdirSync(`${userPath}/${user._id}/`);
       }
+      next();
+    } else {
+      next();
+    }
   });
-
 };
-
-

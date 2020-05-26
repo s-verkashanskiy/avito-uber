@@ -5,7 +5,7 @@
   "main": "server.js",
   "scripts": {
     "seed": "node ./seeders/entry-seeds",
-    "dev": "npx nodemon server.js --ignore sessions",
+    "dev": "nodemon server.js --ignore sessions",
     "start": "node server.js"
   },
   "author": "",

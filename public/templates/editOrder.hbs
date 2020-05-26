@@ -1,0 +1,21 @@
+<li><b>Тема : </b><input type="text" id="title{{order._id}}" value="{{order.title}}"></li>
+<li><b>Описание : </b><input type="text" id="description{{order._id}}" value="{{order.description}}"></li>
+<li><b>Выполнить до: </b><input type="text" id="expirationDate{{order._id}}" value="{{order.expirationDate}}"></li>
+<li><b>Город: </b><input type="text" id="city{{order._id}}" value="{{order.city}}"></li>
+
+<select name="categories" id="selectCategory" class="browser-default">
+  {{#each category}}
+  <option value={{_id}}>
+    {{title}}
+  </option>
+  {{/each}}
+</select>
+
+<select name="skills" id="selectSkill" class="browser-default">
+  {{#each firstCat.skills}}
+  <option value={{_id}}>
+    {{title}}
+  </option>
+  {{/each}}
+</select>
+<a href="" class="editOk">ok</a>

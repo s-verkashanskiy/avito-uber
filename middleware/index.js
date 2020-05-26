@@ -32,6 +32,7 @@ module.exports = function (app) {
       },
     })
   );
+
   app.use((req, res, next) => {
     res.locals.isAuth = !!req.session.user;
     if (req.session.user) {
@@ -40,6 +41,9 @@ module.exports = function (app) {
     }
     next();
   });
+
+
+  
 
   app.use(cookiesCleaner);
 
@@ -53,6 +57,7 @@ module.exports = function (app) {
 
   app.use((req, res, next) => {
     const user = req.session.user;
+    // console.log(!fs.existsSync(`${userPath}/${user._id}/`));
     if (user) {
       const userPath = path.join(__dirname, "..", "public", "img", "avatar");
       if (!fs.existsSync(`${userPath}/${user._id}/`)) {

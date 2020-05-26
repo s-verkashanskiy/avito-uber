@@ -6,12 +6,14 @@
   <textarea name='description'> </textarea>
   <h4>Срок исполнения</h4>
   <input type="text" name="expirationDate">
+    <h4>Город</h4>
+  <input type="text" name="city">
 
   <div id="skills">
     {{#each order.skills}}
     <span id="{{_id}}">{{title}} <a href="" class="deleteSkill">X</a>|</span>
     {{/each}} <br>
-    <select name="category" id="selectCategory" class="browser-default" >
+    <select name="categories" id="selectCategory" class="browser-default" >
       {{#each category}}
       <option value={{_id}}>
         {{title}}
@@ -19,7 +21,7 @@
       {{/each}}
     </select>
 
-    <select name="skill" id="selectSkill" class="browser-default" >
+    <select name="skills" id="selectSkill" class="browser-default" >
       {{#each firstCat.skills}}
       <option value={{_id}}>
         {{title}}

@@ -1,0 +1,30 @@
+<div class="main">
+
+  <div>
+
+    <div style="min-height: 250px; min-width: 250px;">
+      <img src="{{customer.avatar}}" alt="eto {{customer.username}}">
+    </div>
+    <form id="uploadForm" enctype="multipart/form-data" action="/customer/avatar" method="post">
+      <input type="file" name="userFile" required>
+      <input type="submit" value="загрузить" name="submit">
+    </form>
+
+    <form action="/customer" id="customerForm" method="post">
+
+      <span>Имя: </span><input type="text" name="name" value="{{customer.username}}"><br>
+      <span>Город: </span><input type="text" name="city" value="{{customer.city}}"><br>
+      <span> О себе: </span><br>
+      <textarea name="story" id="" cols="30" rows="10">{{customer.story}}</textarea><br>
+    </form>
+  </div>
+
+
+
+  <input name="editProfile" type="submit" form="customerForm" value="готово">
+
+
+
+</div>
+
+</div>

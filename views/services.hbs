@@ -1,13 +1,13 @@
 <script defer src="/js/executor.js"></script>
 
 <div class="page-header">
-    <h1>Услуги</h1>
+  <h1>Услуги</h1>
 </div>
 
 <div>Фильтр специалистов:</div>
-<br/>
+<br />
 
-<form method="POST", action="/services/filter">
+<form method="POST" , action="/services/filter">
   <label>Категория</label>
   <select id="selectCategory" class="browser-default" name="category">
     <option></option>
@@ -32,20 +32,33 @@
 <br />
 <br />
 
-<div class="container row">
 
-    {{#each users}}
-      <ul>
-        <li><b>Имя специалиста: </b>{{this.username}}</li>
-        <li><b>Местоположение: </b>{{this.city}}</li>
-        <li><b>Скиллы: </b>{{this.skills}}</li>
-        {{#if ../isAuth}}
-          <button id="doResponse">Выбрать специалиста</button>
-        {{else}}
-          <a href="/login"><button>Выбрать специалиста</button></a>
-        {{/if}}
-        <br/>
-      </ul>
-    {{/each}}
 
+<div style="display: flex;justify-content: space-between; flex-wrap: wrap;width: 950px;">
+
+
+  {{#each users}}
+  <div style="display: flex; border:solid black 2px; width: 450px;box-shadow: 0 0 10px; margin:10px">
+
+    <div  style="width: 150px;">
+      <img  style="width: 150px;" src="{{this.avatar}}" alt="{{this.username}}">
+
+    </div>
+
+    <ul  id={{id}}>
+      <li><b>Имя специалиста: </b>{{this.username}}</li>
+      <li><b>Местоположение: </b>{{this.city}}</li>
+      <li><b>Скиллы: </b>{{this.skills}}</li>
+      {{#if ../isAuth}}
+      <button id="doResponseToExecutor">Выбрать специалиста</button>
+      {{else}}
+      <a href="/login"><button>Выбрать специалиста</button></a>
+      {{/if}}
+      <br />
+    </ul>
+
+  </div>
+
+
+  {{/each}}
 </div>

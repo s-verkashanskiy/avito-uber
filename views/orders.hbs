@@ -2,6 +2,9 @@
     <h1>Заказы</h1>
 </div>
 
+        <div id="ttt" class="browser-default"> rsgdfhdgdg</div>
+
+
 <form method="POST", action="/orders/filter">
   <label>Категория</label>
   <select id="selectCategory" class="browser-default" name="category">
@@ -29,15 +32,15 @@
 
 
 
-<div class="container row">
+<div style="display: flex;justify-content: space-between; flex-wrap: wrap;width: 900px;">
 
     {{#each orders}}
-      <ul id={{this._id}}>
+      <ul style="border:solid black 2px; width:400px;padding: 10px;box-shadow: 0 0 10px" id={{id}}>
         <li><b>Тема заказа: </b>{{this.title}}</li>
         <li><b>Описание заказа: </b>{{this.description}}</li>
         <li><b>Выполнить до: </b>{{this.expirationDate}}</li>
         {{#if ../isAuth}}
-          <button id="doResponse">Откликнуться</button>
+          <button id="doResponse">Откликнуться</button> <span id="alert{{this.id}}"> </span>
         {{else}}
           <a href="/login"><button>Откликнуться</button></a>
         {{/if}}
@@ -46,3 +49,19 @@
     {{/each}}
 
 </div>
+
+
+{{!-- <div style="display: flex;justify-content: space-between; flex-wrap: wrap;width: 900px;">
+
+
+    {{#each myOrders}}
+      <ul style="border:solid black 2px; width:400px" id={{id}}>
+        <li>{{customer.username}}</li>
+        <li><b>Тема заказа: </b>{{title}}</li>
+        <li><b>Описание заказа: </b>{{description}}</li>
+        <li><b>Выполнить до: </b>{{expirationDate}}</li>
+        <button class="deleteMyOrder">удалить</button>
+      </ul>
+    {{/each}}
+
+</div> --}}

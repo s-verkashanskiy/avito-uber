@@ -1,0 +1,14 @@
+<div style="display: flex;justify-content: space-between; flex-wrap: wrap;width: 900px;">
+
+
+    {{#each myOrders}}
+      <ul style="border:solid black 2px; width:400px;padding: 10px;box-shadow: 0 0 10px" id={{id}}>
+        <li>{{customer.username}}</li>
+        <li><b>Тема заказа: </b>{{title}}</li>
+        <li><b>Описание заказа: </b>{{description}}</li>
+        <li><b>Выполнить до: </b>{{expirationDate}}</li>
+        <button class="deleteMyOrder">удалить</button>
+      </ul>
+    {{/each}}
+
+</div>

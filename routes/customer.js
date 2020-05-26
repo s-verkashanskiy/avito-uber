@@ -3,120 +3,163 @@ const router = Router();
 const { sessionChecker } = require("../middleware/auth");
 const { User } = require("../models/users");
 const { Order, Category, Skill, Price } = require("../models/orders");
-const fs = require("fs");
+const fs = require("fs").promises;
+const gm = require("gm").subClass({ imageMagick: true });
 const fileUpload = require("express-fileupload");
-
-
-
-router.use(fileUpload({ 
-}));
+const path = require("path");
+router.use(fileUpload({}));
 // Редактирование профиля
-router.get(['/', "/profile"], async (req, res) => {
 
-  let customer = await User.findOne({email: req.session.user.email})
-  res.render("customer/customer_profile", customer);
+
+router.get("/", async (req, res) => {
+  const customer = await User.findById(req.session.user._id);
+  console.log(customer);
+
+  res.render("customer/customer", { customer });
 });
 
-router.post("/profile", async (req, res) => {
-  let customer = await User.findOne({email: req.session.user.email})
-  console.log(req.body.story)
-  customer.username = req.body.name;
-  customer.city = req.body.city;
-  customer.phone = req.body.phone
-  customer.story = req.body.story;
-  await customer.save();
-  console.log(customer)
-  res.redirect("/customer/myOrders");
-});
+router.get("/showExecutor/:id", async (req, res) => {
+  
+  const executor = await User.findById(req.params.id);
 
-// Зарузка фотки
-router.post('/profile/upload', function(req, res) {
-  console.log(req.files)
-  if (!req.files || Object.keys(req.files).length === 0) {
-    return res.status(400).send('No files were uploaded.');
-  }
-
-  // The name of the input field (i.e. "sampleFile") is used to retrieve the uploaded file
-  let sampleFile = req.files.sampleFile;
-  let fileName = sampleFile.name;
-
-  // Use the mv() method to place the file somewhere on your server
- sampleFile.mv('./uploads/' + fileName, function(err) {
-    if (err)
-      return res.status(500).send(err);
-
-    const uploaded = {message: 'Файл успешно загружен'}
-    res.render('customer/customer_profile', uploaded);
+  res.render("customer/showExecutor", {
+    executor,
+    skillsArr: await executor.getSkillsArray(),
   });
 });
 
+router.get("/editProfile", async (req, res) => {
+  const customer = await User.findById(req.session.user._id);
+  res.render("customer/editProfile", { customer });
+});
+
+router.post("/", async (req, res) => {
+  const customer = await User.findById(req.session.user._id);
+  const { name, city, story } = req.body;
+  customer.city = city;
+  customer.username = name;
+  customer.story = story;
+  await customer.save();
+  res.redirect("/customer");
+});
 
 // Создать новый заказ
 router.get("/neworder", async (req, res) => {
-  const category = await Category.find().populate('skills');
-  const firstCat = category[1];
-  res.render("customer/customer_newOrder", {category, firstCat});
+  const category = await Category.find().populate("skills");
+  const firstCat = category[0];
+  res.render("customer/newOrder", { category, firstCat });
 });
 
 router.post("/neworder", async (req, res) => {
+  const customer = req.session.user._id;
+  const {
+    expirationDate,
+    title,
+    description,
+    categories,
+    skills,
+    city,
+  } = req.body;
 
-  let customer = await User.findOne({email: req.session.user.email})
-
-  // const price = await new Price({
-  //   costRange: req.body.price,
-    
-  // })
-  // await price.save()
-
-  const order = await new Order({
-    expirationDate: req.body.expirationDate,
-    title: req.body.title,
-    customer: customer,
-    description: req.body.description,
-    categories: req.body.category, 
-    skills: req.body.skill
-  })
-  await order.save()
-  console.log(order)
+  const order = await Order.create({
+    expirationDate,
+    title,
+    customer,
+    description,
+    categories,
+    skills,
+    city,
+  });
+  console.log(order);
   res.redirect("/customer/myOrders");
 });
 
-
 router.get("/myOrders", async (req, res) => {
-  let customer = await User.findOne({email: req.session.user.email})
-  const orders = await Order.find({customer: customer}).populate('skills').populate('categories').populate('responses')
-  console.log(orders)
-  // const skills = await Order.find({skills: orders.skills}).populate('skills')
-  res.render('customer/myorders', {orders})
+  const customer = req.session.user._id;
+  const myOrders = await Order.find({ customer: customer })
+    .populate("skills")
+    .populate("categories")
+    .populate("responses");
+  console.log(myOrders);
+  res.render("customer/myorders", { myOrders });
 });
 
-router.get('/myOrders/:id/edit', async function (req, res, next) {
-  const category = await Category.find().populate('skills');
+router.delete("/", async (req, res) => {
+  try {
+    await Order.findByIdAndDelete(req.body.id);
+    res.json({ status: 200 });
+  } catch {
+    res.json({ status: 400 });
+  }
+});
+
+router.get("/editOrder/:id", async function (req, res, next) {
+  const order = await Order.findById(req.params.id);
+  const category = await Category.find().populate("skills");
   const firstCat = category[1];
-  let order = await Order.findById(req.params.id);  
-  res.render('customer/editOrder', {firstCat, order, category});
+  res.json({ status: 200, order, category, firstCat });
 });
 
-router.post('/myOrders/:id/edit', async function (req, res, next) {
-  let order = await Order.findById(req.params.id)
-  console.log(req.body)
-  order.title  = req.body.title 
-  order.description = req.body.description
-  // order.price = req.body.price
-  // order.categories = req.body.tags 
-  order.expirationDate = req.body.expirationDate
-  await order.save()
-  console.log(order)
-  res.redirect('/customer/myOrders')
-})
+router.patch("/editOrder", async function (req, res, next) {
+  console.log(req.body);
 
-router.get('/myOrders/:id/delete', async function (req, res, next) {
-  // console.log(req.params.id)
-  await Order.deleteOne({'_id': req.params.id});
-  res.redirect('/customer/myOrders');
+  const {
+    expirationDate,
+    title,
+    orderId,
+    description,
+    skills,
+    city,
+    categories,
+  } = req.body;
+
+  try {
+    let order = await Order.findById(orderId);
+    order.expirationDate = expirationDate;
+    order.title = title;
+    order.description = description;
+    order.skills = skills;
+    order.city = city;
+    order.categories = categories;
+    await order.save();
+    console.log(order);
+    order = await Order.findById(orderId).populate("skills");
+    res.json({ status: 200, order });
+  } catch {
+    res.json({ status: 400 });
+  }
 });
 
 
+router.post("/avatar", async (req, res) => {
+  console.log(req.files.userFile.name);
+  if (!req.files || Object.keys(req.files).length === 0) {
+    return res.status(400).send("No files were uploaded.");
+  }
+  const sampleFile = req.files.userFile;
+  const fileName = req.files.userFile.name;
+  const userId = req.session.user._id;
+  const imgType = fileName.slice(fileName.lastIndexOf("."));
+  const directory = path.join(__dirname, `../public/img/avatar/${userId}`);
 
+  const files = await fs.readdir(directory);
+  for (const file of files) {
+    fs.unlink(path.join(directory, file), (err) => {
+      if (err) throw err;
+    });
+  }
+
+  await sampleFile.mv(`${directory}/${fileName}`);
+
+  gm(`${directory}/${fileName}`)
+    .resize(300, 300)
+    .write(`${directory}/avatar${imgType}`, async function (err) {
+      if (!err) console.log(">>>>>>>>>>>>>>>>>>>>>>..", "done");
+      const user = await User.findById(req.session.user._id);
+      user.avatar = `/img/avatar/${userId}/avatar${imgType}`;
+      await user.save();
+      res.redirect("/customer/editProfile");
+    });
+});
 
 module.exports = router;

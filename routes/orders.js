@@ -9,12 +9,12 @@ const { Order, Category, Skill, Price } = require("../models/orders");
 
 router.get("/", sessionChecker(), async (req, res) => {
   if (req.session.user.isExecutor) {
-    try {
+    try {    
       const category = await Category.find().populate('skills');
       res.render("orders", {
         category,
         firstCat: '',
-        orders: await Order.getAllOrders()
+        orders: await Order.getNotResponseByExecutor(req.session.user._id),
       });
     } catch (error) {
       next(error);

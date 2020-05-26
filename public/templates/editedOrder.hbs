@@ -1,0 +1,13 @@
+    <li><b>Тема : </b>{{order.title}}</li>
+    <li><b>Описание : </b>{{order.description}}</li>
+    <div>Дата публикации: {{order.publicationDate}}</div>
+    <li><b>Выполнить до: </b>{{order.expirationDate}}</li>
+    <li><b>Услуга: </b>{{#each order.skills}}{{title}}{{/each}}</li>
+
+     <p>Откликнулись: </p>
+    {{#each order.responses}}
+    <div> <a style="color:red" href="/executer/{{_id}}">{{username}}</a></div>
+    {{/each}}
+    <a href="" class="editOrderCustomer">Редактировать</a>
+    <a href="" class="deleteOrderCustomer">Удалить</a>
+    <hr />

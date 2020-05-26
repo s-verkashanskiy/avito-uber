@@ -55,14 +55,19 @@ const orderSchema = new Schema({
     type: ObjectId,
     ref: "User",
   },
+  city:{
+    type: String,
+  },
   executant: {
     type: ObjectId,
     ref: "User",
   },
-  responses: [{
-    type: ObjectId,
-    ref: "User",
-  }],
+  responses: [
+    {
+      type: ObjectId,
+      ref: "User",
+    },
+  ],
   publicationDate: {
     type: String,
     default: new Date().toUTCString(),
@@ -85,6 +90,25 @@ const orderSchema = new Schema({
   ],
 });
 
+const executorPriceSchema = new Schema({
+  executor: {
+    type: ObjectId,
+    ref: "User",
+  },
+  skill: {
+    type: ObjectId,
+    ref: "Skill",
+  },
+  category: {
+    type: ObjectId,
+    ref: "Category",
+  },
+  price: {
+    type: Number,
+    required: true,
+  },
+});
+
 orderSchema.static("getAllOrders", async function () {
   const orders = await this.find();
   const result = orders.map((order) => {
@@ -99,11 +123,28 @@ orderSchema.static("getAllOrders", async function () {
   return result;
 });
 
+orderSchema.static("getNotResponseByExecutor", async function (executorId) {
+  const orders = await this.find();
+
+  return orders
+    .filter((elem) => !elem.responses.includes(executorId))
+    .map((order) => {
+      return {
+        id: order._id,
+        title: order.title,
+        description: order.description,
+        expirationDate: order.expirationDate,
+      };
+    });
+});
+
 orderSchema.static("getOrdersWithCategory", async function (categoryNameId) {
   const orders = await this.find().populate("categories");
   const result = orders
-    .filter( order => order.categories.some( category => category._id == categoryNameId))
-    .map( order => {
+    .filter((order) =>
+      order.categories.some((category) => category._id == categoryNameId)
+    )
+    .map((order) => {
       return {
         id: order._id,
         title: order.title,
@@ -116,10 +157,10 @@ orderSchema.static("getOrdersWithCategory", async function (categoryNameId) {
 });
 
 orderSchema.static("getOrdersWithSkill", async function (skillNameId) {
-  const orders = await this.find().populate('skills');
+  const orders = await this.find().populate("skills");
   const result = orders
-    .filter( order => order.skills.some( skill => skill._id == skillNameId))
-    .map( order => {
+    .filter((order) => order.skills.some((skill) => skill._id == skillNameId))
+    .map((order) => {
       return {
         id: order._id,
         title: order.title,
@@ -135,5 +176,6 @@ const Skill = model("Skill", skillSchema);
 const Order = model("Order", orderSchema);
 const Category = model("Category", categorySchema);
 const Price = model("Price", priceSchema);
+const ExexutorPrice = model("ExexutorPrice", executorPriceSchema);
 
-module.exports = { Order, Category, Skill, Price };
+module.exports = { Order, Category, Skill, Price, ExexutorPrice };

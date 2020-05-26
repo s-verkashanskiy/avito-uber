@@ -4,7 +4,8 @@ mongoose.connect(`mongodb+srv://admin:${process.env.ADMIN_PASSWORD}@cluster0-rib
 // mongoose.connect("mongodb://localhost:27017/avito-uber", {  
   useNewUrlParser: true,
   useUnifiedTopology: true,
-  useCreateIndex:true
+  useFindAndModify: false,
+  useCreateIndex: true,
 });
 
 module.exports = mongoose.connection;
